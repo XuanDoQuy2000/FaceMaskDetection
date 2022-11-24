@@ -1,27 +1,30 @@
 package com.xuandq.facemaskdetection.fragments
 
 import android.graphics.Bitmap
+import android.media.FaceDetector
 import android.os.Bundle
 import android.util.Log
+import android.util.Size
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.camera.core.*
-import androidx.camera.core.ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import com.xuandq.facemaskdetection.R
+import androidx.core.view.size
+import com.google.mlkit.vision.face.Face
 import com.xuandq.facemaskdetection.analyzer.FaceMaskAnalyzer
 import com.xuandq.facemaskdetection.analyzer.ImageClassifierHelper
 import com.xuandq.facemaskdetection.databinding.FragmentCameraBinding
+import com.xuandq.facemaskdetection.utils.FaceGraphic
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
 
-    private lateinit var binding : FragmentCameraBinding
+    private lateinit var binding: FragmentCameraBinding
 
     private lateinit var bitmapBuffer: Bitmap
 
@@ -45,12 +48,11 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        faceMaskAnalyzer = context?.let { FaceMaskAnalyzer(it, this) }
+        faceMaskAnalyzer = context?.let { FaceMaskAnalyzer(it,  true,this) }
 
         binding.previewView.post {
             setUpCamera()
         }
-
     }
 
     override fun onDestroyView() {
@@ -87,14 +89,14 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
         // Preview. Only using the 4:3 ratio because this is the closest to our models
         preview =
             Preview.Builder()
-                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
                 .setTargetRotation(binding.previewView.display.rotation)
+                .setTargetResolution(Size(720,1280))
                 .build()
 
         // ImageAnalysis. Using RGBA 8888 to match how our models work
         imageAnalyzer =
             ImageAnalysis.Builder()
-                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
+                .setTargetResolution(Size(720,1280))
                 .setTargetRotation(binding.previewView.display.rotation)
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
@@ -112,6 +114,14 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
             // camera provides access to CameraControl & CameraInfo
             camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer)
 
+            Log.d("fff", "onViewCreated: ${binding.previewView.measuredWidth }")
+
+            binding.graphicOverlay.setImageSourceInfo(
+                720,
+                1280,
+                true
+            )
+
             // Attach the viewfinder's surface provider to preview use case
             preview?.setSurfaceProvider(binding.previewView.surfaceProvider)
         } catch (exc: Exception) {
@@ -126,11 +136,23 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
     override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
         if (::binding.isInitialized) {
             val firstClassfication = results?.firstOrNull()
-            val firstCategory = firstClassfication?.categories?.firstOrNull()
-            Log.d("aaa", "onResults: first result = $firstCategory")
+            val categories = firstClassfication?.categories?.sortedBy { it.score }
+            val firstCategory = categories?.firstOrNull()
+            Log.d("aaa", "onResults: result = ${firstCategory.toString()}")
             activity?.runOnUiThread {
-                binding.txtResult.text = "${firstCategory?.label.toString()} - ${firstCategory?.score}"
+                binding.txtResult.text =
+                    "${firstCategory.toString()}"
             }
+        }
+    }
+
+    override fun onFaceDetected(faces: List<Face>, bitmap: Bitmap) {
+        if (::binding.isInitialized) {
+            binding.graphicOverlay.clear()
+            for (face in faces) {
+                binding.graphicOverlay.add(FaceGraphic(binding.graphicOverlay, face))
+            }
+            binding.facePreview.setImageBitmap(bitmap)
         }
     }
 }

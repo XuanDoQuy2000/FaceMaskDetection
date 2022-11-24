@@ -21,6 +21,7 @@ import kotlin.math.abs
 
 class FaceMaskAnalyzer(
     private val context: Context,
+    private val isFlipped: Boolean,
     private val listener: ImageClassifierHelper.ClassifierListener,
 ) : ImageAnalysis.Analyzer {
 
@@ -65,7 +66,7 @@ class FaceMaskAnalyzer(
         faceDetector.process(inputImage)
             .addOnSuccessListener { faces ->
                 if (!faces.isNullOrEmpty()) {
-                    Log.d("aaa", "detectFace: ")
+                    Log.d("aaa", "detectFace: ${inputImage.width} - ${inputImage.height}")
                     val bitmapProxy = imageProxy.toBitmap() ?: Bitmap.createBitmap(
                         imageProxy.width,
                         imageProxy.height,
@@ -75,10 +76,11 @@ class FaceMaskAnalyzer(
                     bitmapProxy.recycle()
                     if (croppedFaces.isNotEmpty()) {
                         bitmapBuffer = croppedFaces.first()
-                        detectMask(rotation)
+                        listener.onFaceDetected(faces, bitmapBuffer)
+                        detectMask(faces.first(),rotation)
                     }
                 } else {
-                    listener.onResults(null,0)
+                    listener.onResults(null,null,0)
                 }
                 imageProxy.close()
             }.addOnFailureListener {
@@ -88,8 +90,8 @@ class FaceMaskAnalyzer(
             }
     }
 
-    private fun detectMask(rotation: Int) {
-        maskDetection.classify(bitmapBuffer, rotation)
+    private fun detectMask(face: Face, rotation: Int) {
+        maskDetection.classify(face, bitmapBuffer, 1)
     }
 
     private fun cropFaceToBitmap(faces: List<Face>, originBitmap: Bitmap): List<Bitmap> {
@@ -101,23 +103,22 @@ class FaceMaskAnalyzer(
 //                "detectFace: ${face.boundingBox.left} - ${face.boundingBox.right} - ${face.boundingBox.top} - ${face.boundingBox.bottom}"
 //            )
             val faceBox = face.boundingBox
-            val left = faceBox.left.coerceIn(0, originBitmap.width)
-            val right = faceBox.right.coerceIn(0, originBitmap.width)
+            val left = (if (isFlipped) originBitmap.width - faceBox.right else faceBox.left).coerceIn(0, originBitmap.width)
+            val right = (if (isFlipped) originBitmap.width - faceBox.left else faceBox.right).coerceIn(0, originBitmap.width)
             val top = faceBox.top.coerceIn(0, originBitmap.height)
             val bottom = faceBox.bottom.coerceIn(0, originBitmap.height)
             val width = right - left
             val height = bottom - top
-            Log.d("bbb", "cropFaceToBitmap: $width - $height")
-            if (width > 10 && height > 10) {
-                croppedFaces.add(
-                    Bitmap.createBitmap(
-                        originBitmap,
-                        left,
-                        top,
-                        width,
-                        height,
-                    )
+//            Log.d("bbb", "cropFaceToBitmap: $left - $right")
+            if (width > face.boundingBox.width() * 0.75 && height > face.boundingBox.height() * 0.75) {
+                val faceBitmap = Bitmap.createBitmap(
+                    originBitmap,
+                    left,
+                    top,
+                    width,
+                    height,
                 )
+                croppedFaces.add(faceBitmap)
             }
         }
         return croppedFaces

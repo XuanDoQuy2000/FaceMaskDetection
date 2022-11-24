@@ -43,7 +43,7 @@ public class BitmapUtils {
             Bitmap bmp = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size());
 
             stream.close();
-            return rotateBitmap(bmp, metadata.getRotation(), false, false);
+            return rotateBitmap(bmp, metadata.getRotation(), true, false);
         } catch (Exception e) {
             Log.e("VisionProcessorBase", "Error: " + e.getMessage());
         }

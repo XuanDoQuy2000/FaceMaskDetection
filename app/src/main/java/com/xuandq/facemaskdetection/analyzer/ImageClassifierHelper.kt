@@ -18,9 +18,11 @@ package com.xuandq.facemaskdetection.analyzer
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.media.FaceDetector
 import android.os.SystemClock
 import android.util.Log
 import android.view.Surface
+import com.google.mlkit.vision.face.Face
 import org.tensorflow.lite.gpu.CompatibilityList
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.common.ops.NormalizeOp
@@ -92,7 +94,7 @@ class ImageClassifierHelper(
         }
     }
 
-    fun classify(image: Bitmap, rotation: Int) {
+    fun classify(face: Face, image: Bitmap, rotation: Int) {
         if (imageClassifier == null) {
             setupImageClassifier()
         }
@@ -111,6 +113,7 @@ class ImageClassifierHelper(
         val results = imageClassifier?.classify(tensorImage, imageProcessingOptions)
         inferenceTime = SystemClock.uptimeMillis() - inferenceTime
         imageClassifierListener?.onResults(
+            face,
             results,
             inferenceTime
         )
@@ -134,16 +137,19 @@ class ImageClassifierHelper(
     interface ClassifierListener {
         fun onError(error: String)
         fun onResults(
+            face: Face?,
             results: List<Classifications>?,
             inferenceTime: Long
         )
+
+        fun onFaceDetected(faces: List<Face>, bitmap: Bitmap)
     }
 
     companion object {
         const val DELEGATE_CPU = 0
         const val DELEGATE_GPU = 1
         const val DELEGATE_NNAPI = 2
-        const val MODEL_PATH = "mobilenet_v2_model.tflite"
+        const val MODEL_PATH = "model_12k_v1.tflite"
         private const val TAG = "ImageClassifierHelper"
     }
 }
