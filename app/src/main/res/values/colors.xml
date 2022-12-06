@@ -7,6 +7,37 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
 
     <color name="black_25">#40000000</color>
+
+    <color name="capri">#4FC3F7</color>
+    <color name="green">#00AD50</color>
+    <color name="red">#F44336</color>
+    <color name="orange">#FF6A39</color>
+    <color name="yellow">#ffeb3b</color>
+    <color name="aqua">#00ACA0</color>
+
+    <color name="gray2">#757575</color>
+    <color name="gray3">#BDBDBD</color>
+    <color name="gray4">#E2E8F0</color>
+    <color name="border">#E2E8F0</color>
+    <color name="blue">#1B6EEB</color>
+    <color name="blue2">#00B6F3</color>
+    <color name="bg_tel_selected">#0D00B6F3</color>
+    <color name="primary_mytable">#FF9B25</color>
+    <color name="text_green">#48BB78</color>
+    <color name="primary_blue">#1A00B6F3</color>
+
+    <color name="neutral_100">#F7FAFC</color>
+    <color name="neutral_200">#EDF2F7</color>
+    <color name="neutral_300">#E2E8F0</color>
+    <color name="neutral_400">#CBD5E0</color>
+    <color name="neutral_500">#A0AEC0</color>
+    <color name="neutral_600">#718096</color>
+    <color name="neutral_700">#4A5568</color>
+    <color name="neutral_800">#2D3748</color>
+    <color name="neutral_900">#1A202C</color>
+
+    <color name="color_hint">#94A3B8</color>
 </resources>

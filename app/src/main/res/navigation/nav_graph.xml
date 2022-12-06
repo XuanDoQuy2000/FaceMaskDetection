@@ -6,6 +6,30 @@
 
     <fragment
         android:id="@+id/cameraFragment"
-        android:name="com.xuandq.facemaskdetection.fragments.CameraFragment"
-        android:label="CameraFragment" />
+        android:name="com.xuandq.facemaskdetection.ui.camera.CameraFragment"
+        android:label="CameraFragment" >
+        <action
+            android:id="@+id/action_cameraFragment_to_searchCustomerFragment"
+            app:destination="@id/searchCustomerFragment" />
+        <action
+            android:id="@+id/action_cameraFragment_to_listRewardFragment"
+            app:destination="@id/listRewardFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchCustomerFragment"
+        android:name="com.xuandq.facemaskdetection.ui.list_customer.ListCustomerFragment"
+        android:label="SearchCustomerFragment" >
+        <action
+            android:id="@+id/action_searchCustomerFragment_to_addCustomerFragment"
+            app:destination="@id/addCustomerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCustomerFragment"
+        android:name="com.xuandq.facemaskdetection.ui.add_customer.AddCustomerFragment"
+        android:label="AddCustomerFragment" />
+    <fragment
+        android:id="@+id/listRewardFragment"
+        android:name="com.xuandq.facemaskdetection.ui.list_reward.ListRewardFragment"
+        android:label="ListRewardFragment" />
 </navigation>

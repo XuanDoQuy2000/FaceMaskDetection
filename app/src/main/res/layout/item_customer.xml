@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="customer"
+            type="com.xuandq.facemaskdetection.data.model.CustomerUI" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/no_avatar"
+            android:scaleX="1.1"
+            android:scaleY="1.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_name"
+            style="@style/TextStyleSub1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:text="@{customer.name}"
+            app:layout_constraintBottom_toTopOf="@+id/txt_phone"
+            app:layout_constraintEnd_toStartOf="@id/img_next"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/img_avatar"
+            app:layout_constraintTop_toTopOf="@id/img_avatar"
+            tools:text="Do Quy Xuan" />
+
+        <TextView
+            android:id="@+id/txt_phone"
+            style="@style/TextStyleBody2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/neutral_600"
+            android:text="@{customer.phoneNumber}"
+            app:layout_constraintBottom_toBottomOf="@id/img_avatar"
+            app:layout_constraintEnd_toEndOf="@id/txt_name"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/txt_name"
+            app:layout_constraintTop_toBottomOf="@+id/txt_name"
+            tools:text="0337009194" />
+
+        <ImageView
+            android:id="@+id/img_next"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_next"
+            app:layout_constraintBottom_toBottomOf="@id/img_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/img_avatar"
+            app:tint="@color/neutral_900" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

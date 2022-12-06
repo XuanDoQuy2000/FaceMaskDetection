@@ -2,4 +2,13 @@
     <string name="app_name">Face Mask Detection</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="manage_customer">Quản lý khách hàng</string>
+    <string name="add_customer">Thêm khách hàng</string>
+    <string name="search_customer">Tìm kiếm khách hàng</string>
+    <string name="manage_reward">Quản lý quà</string>
+    <string name="add_reward">Thêm quà</string>
+    <string name="add_image">Add Image</string>
+    <string name="notice">Thông báo</string>
+    <string name="action_cancel">Hủy</string>
+    <string name="action_ok">Đồng ý</string>
 </resources>

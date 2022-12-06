@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="subTitle"
+            type="String" />
+
+        <variable
+            name="shouldShowBackBtn"
+            type="Boolean" />
+
+        <variable
+            name="leftButtonDrawable"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="rightButtonDrawable"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="titleOnClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="48dp"
+        android:paddingVertical="6dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            isInvisible="@{!(shouldShowBackBtn??true)}"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="centerInside"
+            android:src="@{leftButtonDrawable??@drawable/ic_back}"
+            android:tag="R.id.btnBack"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSubTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            app:tint="@color/neutral_900"
+            tools:ignore="UnusedAttribute"
+            tools:src="@drawable/ic_back" />
+
+        <ImageView
+            android:id="@+id/btnButtonRight"
+            isVisible="@{rightButtonDrawable!=null}"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="centerInside"
+            android:src="@{rightButtonDrawable}"
+            android:tag="R.id.btnToolbarRight"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSubTitle"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            tools:ignore="UnusedAttribute"
+            tools:src="@drawable/ic_back"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/TextStyleSub1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="56dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:text="@{title}"
+            app:layout_constraintBottom_toTopOf="@+id/tvSubTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Title nè" />
+
+        <TextView
+            android:id="@+id/tvSubTitle"
+            style="@style/TextStyleCaption"
+            isVisible="@{subTitle!=null}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="56dp"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:text="@{subTitle}"
+            android:textColor="@color/neutral_700"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:text="Subtitle nè" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="@{titleOnClick!=null}"
+            android:focusable="@{titleOnClick!=null}"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{titleOnClick}"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSubTitle"
+            app:layout_constraintLeft_toLeftOf="@+id/tvTitle"
+            app:layout_constraintRight_toRightOf="@+id/tvTitle"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            tools:ignore="UnusedAttribute" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

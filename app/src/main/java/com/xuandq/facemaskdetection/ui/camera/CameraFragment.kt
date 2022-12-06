@@ -1,7 +1,6 @@
-package com.xuandq.facemaskdetection.fragments
+package com.xuandq.facemaskdetection.ui.camera
 
 import android.graphics.Bitmap
-import android.media.FaceDetector
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
@@ -12,7 +11,7 @@ import android.view.ViewGroup
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.core.view.size
+import androidx.navigation.fragment.findNavController
 import com.google.mlkit.vision.face.Face
 import com.xuandq.facemaskdetection.analyzer.FaceMaskAnalyzer
 import com.xuandq.facemaskdetection.analyzer.ImageClassifierHelper
@@ -48,10 +47,18 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        faceMaskAnalyzer = context?.let { FaceMaskAnalyzer(it,  true,this) }
+        faceMaskAnalyzer = context?.let { FaceMaskAnalyzer(it, true, this) }
 
         binding.previewView.post {
             setUpCamera()
+        }
+
+        binding.btnManageCustomer.setOnClickListener {
+            findNavController().navigate(CameraFragmentDirections.actionCameraFragmentToSearchCustomerFragment())
+        }
+
+        binding.btnManageReward.setOnClickListener {
+            findNavController().navigate(CameraFragmentDirections.actionCameraFragmentToListRewardFragment())
         }
     }
 
@@ -90,13 +97,13 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
         preview =
             Preview.Builder()
                 .setTargetRotation(binding.previewView.display.rotation)
-                .setTargetResolution(Size(720,1280))
+                .setTargetResolution(Size(720, 1280))
                 .build()
 
         // ImageAnalysis. Using RGBA 8888 to match how our models work
         imageAnalyzer =
             ImageAnalysis.Builder()
-                .setTargetResolution(Size(720,1280))
+                .setTargetResolution(Size(720, 1280))
                 .setTargetRotation(binding.previewView.display.rotation)
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
@@ -114,7 +121,7 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
             // camera provides access to CameraControl & CameraInfo
             camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer)
 
-            Log.d("fff", "onViewCreated: ${binding.previewView.measuredWidth }")
+            Log.d("fff", "onViewCreated: ${binding.previewView.measuredWidth}")
 
             binding.graphicOverlay.setImageSourceInfo(
                 720,
@@ -133,7 +140,7 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
 
     }
 
-    override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
+    override fun onResults(face: Face?, results: List<Classifications>?, inferenceTime: Long) {
         if (::binding.isInitialized) {
             val firstClassfication = results?.firstOrNull()
             val categories = firstClassfication?.categories?.sortedBy { it.score }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TrpTrainTextInputEditText">
+        <item name="android:textSize">16sp</item>
+        <item name="hintTextColor">@color/neutral_300</item>
+        <item name="android:textColor">@color/neutral_900</item>
+        <item name="colorPrimary">@color/neutral_300</item>
+        <item name="colorOnSurface">@color/neutral_300</item>
+        <item name="colorAccent">@color/neutral_300</item>
+        <item name="colorControlNormal">@color/neutral_300</item>
+        <item name="colorControlActivated">@color/neutral_900</item>
+    </style>
+
+    <style name="TrpTrainCustomTextInputLayout">
+        <!--        <item name="android:textColorHint">@color/color_hint</item>-->
+        <item name="colorPrimary">@color/color_hint</item>
+        <item name="colorOnSurface">@color/color_hint</item>
+        <item name="colorAccent">@color/color_hint</item>
+    </style>
+
+    <style name="NoticeDialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="colorPrimary">@color/blue2</item>
+        <item name="colorPrimaryDark">@color/blue2</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+</resources>
