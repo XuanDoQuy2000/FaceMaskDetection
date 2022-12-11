@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xuandq.facemaskdetection.ui.add_reward.AddRewardViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.add_reward.AddRewardFragment">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_toolbar"
+            app:rightButtonDrawable="@{@drawable/ic_done}"
+            app:title="@{@string/add_reward}" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tip_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:background="@color/transparent"
+            android:layout_marginTop="@dimen/xuandq_dip_12"
+            android:hint="Tên"
+            android:theme="@style/TrpTrainCustomTextInputLayout"
+            app:boxBackgroundColor="@color/transparent"
+            app:boxStrokeWidth="@dimen/xuandq_dip_0"
+            app:errorIconDrawable="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_edt_text_area"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textCapWords"
+                android:paddingEnd="@dimen/xuandq_dip_24"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tip_des"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:background="@color/transparent"
+            android:layout_marginTop="@dimen/xuandq_dip_16"
+            android:hint="Mô tả"
+            android:theme="@style/TrpTrainCustomTextInputLayout"
+            app:boxBackgroundColor="@color/transparent"
+            app:boxStrokeWidth="@dimen/xuandq_dip_0"
+            app:errorIconDrawable="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tip_name">
+
+            <EditText
+                android:id="@+id/edt_des"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/xuandq_dip_12"
+                android:background="@drawable/bg_edt_text_area"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:maxLines="10"
+                android:minLines="6"
+                android:scrollbars="vertical"
+                app:layout_constraintTop_toBottomOf="@id/tip_name" />
+            
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tip_quantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:background="@color/transparent"
+            android:layout_marginTop="@dimen/xuandq_dip_16"
+            android:hint="Số lượng"
+            android:theme="@style/TrpTrainCustomTextInputLayout"
+            app:boxBackgroundColor="@color/transparent"
+            app:boxStrokeWidth="@dimen/xuandq_dip_0"
+            app:errorIconDrawable="@null"
+            app:layout_constraintEnd_toStartOf="@id/tip_point"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tip_des">
+            
+            <EditText
+                android:id="@+id/edt_quantity"
+                android:inputType="numberSigned"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_edt_text_area"/>
+            
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tip_point"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:background="@color/transparent"
+            android:hint="Số điểm để đổi"
+            android:theme="@style/TrpTrainCustomTextInputLayout"
+            app:boxBackgroundColor="@color/transparent"
+            app:boxStrokeWidth="@dimen/xuandq_dip_0"
+            app:errorIconDrawable="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tip_quantity"
+            app:layout_constraintTop_toTopOf="@id/tip_quantity">
+
+            <EditText
+                android:id="@+id/edt_point"
+                android:inputType="numberSigned"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_edt_text_area"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

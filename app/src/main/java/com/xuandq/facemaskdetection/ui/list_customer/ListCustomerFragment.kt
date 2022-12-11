@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.xuandq.facemaskdetection.databinding.FragmentListCustomerBinding
+import com.xuandq.facemaskdetection.ui.dialog.NoticeDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +27,7 @@ class ListCustomerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentListCustomerBinding.inflate(inflater, container,false)
+        binding = FragmentListCustomerBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -34,6 +35,14 @@ class ListCustomerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         binding.rvCustomer.adapter = customerAdapter
+
+        customerAdapter.itemClickListener = {
+            findNavController().navigate(
+                ListCustomerFragmentDirections.actionSearchCustomerFragmentToCustomerDetailFragment(
+                    it
+                )
+            )
+        }
 
         binding.toolbar.btnButtonRight.setOnClickListener {
 
@@ -49,6 +58,15 @@ class ListCustomerFragment : Fragment() {
 
         viewModel.customers.observe(viewLifecycleOwner) {
             customerAdapter.setData(it)
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            it ?: return@observe
+            NoticeDialog()
+                .message(it.message)
+                .singleButton(true)
+                .show(parentFragmentManager,"error")
+            viewModel.error.value = null
         }
     }
 

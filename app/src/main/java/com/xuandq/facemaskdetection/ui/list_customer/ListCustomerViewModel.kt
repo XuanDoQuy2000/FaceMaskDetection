@@ -18,7 +18,7 @@ class ListCustomerViewModel @Inject constructor(private val dataManager: DataMan
     val loading by lazy { MutableLiveData<Boolean>() }
     val error by lazy { MutableLiveData<BaseError>() }
 
-    val customers: MutableLiveData<List<CustomerUI>> =  MutableLiveData()
+    val customers: MutableLiveData<List<CustomerUI>> by lazy { MutableLiveData() }
     var page: Int = 0
 
     fun refreshCustomers() {
@@ -30,8 +30,8 @@ class ListCustomerViewModel @Inject constructor(private val dataManager: DataMan
         viewModelScope.launch {
             when(val result = dataManager.getCustomersByPoint(page)) {
                 is Result.Success -> {
-                    Log.d("data", "getCustomers: ${result.data}")
-                    customers.value = result.data ?: emptyList()
+                    Log.d("ppp", "getCustomers: ${result.data}")
+                    customers.value = result.data
                 }
                 is Result.Error -> {
                     error.value = result.error

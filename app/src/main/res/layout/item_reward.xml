@@ -12,23 +12,25 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp">
+        android:paddingHorizontal="@dimen/xuandq_dip_16"
+        >
 
         <ImageView
             android:id="@+id/img_avatar"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/xuandq_dip_64"
+            android:layout_height="@dimen/xuandq_dip_64"
             android:src="@drawable/ic_gift"
+            android:layout_marginVertical="@dimen/xuandq_dip_8"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/txt_name"
             style="@style/TextStyleSub1"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/xuandq_dip_0"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_12"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{reward.name}"
@@ -42,7 +44,7 @@
         <TextView
             android:id="@+id/txt_phone"
             style="@style/TextStyleBody2"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/xuandq_dip_0"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
@@ -61,11 +63,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
+            pointInt="@{reward.getPointValue()}"
             android:textColor="@color/red"
             app:layout_constraintBottom_toBottomOf="@id/img_avatar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/img_avatar"
             tools:text="100" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xuandq_dip_1"
+            android:background="@color/neutral_200"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

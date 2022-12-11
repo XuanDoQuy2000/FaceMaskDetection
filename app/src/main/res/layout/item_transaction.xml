@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="transaction"
+            type="com.xuandq.facemaskdetection.data.model.PointTransactionUI" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_type"
+            style="@style/TextStyleSub2"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="wrap_content"
+            android:text="@{transaction.getTypeString()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_timeStamp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/xuandq_dip_12"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            tools:text="Tich diem"
+            />
+
+        <TextView
+            android:id="@+id/tv_timeStamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/neutral_700"
+            tools:text="16:20 12/11/2022"
+            dateTime="@{transaction.timeStamp}"
+            android:layout_marginEnd="@dimen/xuandq_dip_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_type"
+            app:layout_constraintBottom_toBottomOf="@id/tv_type"
+            style="@style/TextStyleBody2"
+            />
+
+        <TextView
+            android:id="@+id/tv_customer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{transaction.getCustomerInfo()}"
+            app:layout_constraintTop_toBottomOf="@id/tv_type"
+            app:layout_constraintStart_toStartOf="@id/tv_type"
+            app:layout_constraintEnd_toEndOf="@id/tv_type"
+            tools:text="ID: 5 | Do Quy Xuan"
+            style="@style/TextStyleBody2"
+            />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{transaction.getContentInfo()}"
+            app:layout_constraintTop_toBottomOf="@id/tv_customer"
+            app:layout_constraintStart_toStartOf="@id/tv_type"
+            app:layout_constraintEnd_toEndOf="@id/tv_type"
+            tools:text="ID: 5 | Tra O Long Tea Plus\n200.000dd"
+            style="@style/TextStyleBody2"
+            />
+
+        <TextView
+            android:id="@+id/tv_total_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextStyleBody2"
+            point="@{transaction.totalPoint}"
+            signed="@{transaction.type}"
+            android:textColor="@color/text_green"
+            app:layout_constraintEnd_toEndOf="@id/tv_timeStamp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_content"
+            tools:text="20.0"
+            />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/neutral_300"
+            app:layout_constraintTop_toBottomOf="@id/tv_content"
+            android:layout_marginTop="@dimen/xuandq_dip_12"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

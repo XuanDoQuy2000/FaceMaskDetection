@@ -22,7 +22,7 @@ class AddCustomerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddCustomerBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -46,6 +46,15 @@ class AddCustomerFragment : Fragment() {
                     }
                     .show(parentFragmentManager,"success")
             }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            it ?: return@observe
+            NoticeDialog()
+                .message(it.message)
+                .singleButton(true)
+                .show(parentFragmentManager,"error")
+            viewModel.error.value = null
         }
     }
 

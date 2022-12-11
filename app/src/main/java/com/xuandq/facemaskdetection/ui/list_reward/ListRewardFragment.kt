@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.xuandq.facemaskdetection.R
@@ -22,7 +23,7 @@ class ListRewardFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentListRewardBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -37,12 +38,20 @@ class ListRewardFragment : Fragment() {
         }
 
         binding.toolbar.btnBack.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().popBackStack()
         }
 
         binding.btnAdd.setOnClickListener {
-            findNavController().navigate(ListCustomerFragmentDirections.actionSearchCustomerFragmentToAddCustomerFragment())
+            findNavController().navigate(ListRewardFragmentDirections.actionListRewardFragmentToAddRewardFragment())
+        }
+
+        viewModel.rewards.observe(viewLifecycleOwner) {
+            rewardAdapter.setData(it)
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getRewards()
+    }
 }

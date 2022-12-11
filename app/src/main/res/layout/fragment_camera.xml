@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="@dimen/xuandq_dip_24"
             android:background="@color/black_25"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -33,8 +33,8 @@
 
         <com.xuandq.facemaskdetection.utils.GraphicOverlay
             android:id="@+id/graphic_overlay"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="@dimen/xuandq_dip_0"
             app:layout_constraintLeft_toLeftOf="@id/preview_view"
             app:layout_constraintRight_toRightOf="@id/preview_view"
             app:layout_constraintTop_toTopOf="@id/preview_view"
@@ -42,8 +42,8 @@
 
         <ImageView
             android:id="@+id/face_preview"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="@dimen/xuandq_dip_160"
+            android:layout_height="@dimen/xuandq_dip_160"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -63,7 +63,7 @@
             android:text="Reward"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="60dp"/>
+            android:layout_marginTop="@dimen/xuandq_dip_60"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

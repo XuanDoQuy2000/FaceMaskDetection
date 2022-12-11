@@ -10,15 +10,20 @@ class RewardAdapter : RecyclerView.Adapter<RewardAdapter.RewardViewHolder>() {
 
     private val rewards = ArrayList<RewardUI>()
 
+    var itemClickListener: ((RewardUI) -> Unit)? = null
+
     fun setData(newList: List<RewardUI>) {
         rewards.clear()
         rewards.addAll(newList)
         notifyDataSetChanged()
     }
 
-    class RewardViewHolder(val binding: ItemRewardBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class RewardViewHolder(val binding: ItemRewardBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(reward: RewardUI) {
             binding.reward = reward
+            binding.root.setOnClickListener {
+                itemClickListener?.invoke(reward)
+            }
             binding.executePendingBindings()
         }
     }

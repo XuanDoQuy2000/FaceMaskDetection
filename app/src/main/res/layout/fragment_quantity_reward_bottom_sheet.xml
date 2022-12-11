@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.xuandq.facemaskdetection.ui.redeem.QuantityRewardViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/xuandq_dip_16"
+        tools:context=".ui.redeem.QuantityRewardBottomSheet">
+
+        <ImageView
+            android:id="@+id/ic_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xuandq_dip_8"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_line_bottomsheet" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ic_line"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_16"
+            android:text="@string/choose_quantity"
+            style="@style/TextStyleSub1" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            android:layout_marginTop="@dimen/xuandq_dip_12"
+            android:background="@color/neutral_200"
+            />
+
+        <TextView
+            android:id="@+id/tv_reward_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.reward.name}"
+            style="@style/TextStyleSub2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line"
+            android:layout_marginTop="@dimen/xuandq_dip_16"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            tools:text="San pham A"/>
+
+        <TextView
+            android:id="@+id/tv_reward_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            pointInt="@{viewModel.reward.point}"
+            app:layout_constraintTop_toTopOf="@id/btn_plus"
+            app:layout_constraintBottom_toBottomOf="@id/btn_plus"
+            app:layout_constraintStart_toStartOf="@id/tv_reward_name"
+            style="@style/TextStyleSub2"
+            android:layout_marginEnd="@dimen/xuandq_dip_16"
+            tools:text="10.0"
+            />
+
+        <ImageView
+            android:id="@+id/btn_plus"
+            android:layout_width="@dimen/xuandq_dip_28"
+            android:layout_height="@dimen/xuandq_dip_28"
+            android:layout_marginTop="@dimen/xuandq_dip_12"
+            android:layout_marginEnd="@dimen/xuandq_dip_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_reward_name"
+            android:src="@drawable/ic_add"
+            android:background="@color/color_primary"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_quantity"
+            android:layout_width="@dimen/xuandq_dip_50"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            number="@{viewModel.quantity}"
+            app:layout_constraintTop_toTopOf="@id/btn_plus"
+            app:layout_constraintBottom_toBottomOf="@id/btn_plus"
+            app:layout_constraintEnd_toStartOf="@id/btn_plus"
+            style="@style/TextStyleSub1"
+            tools:text="10"
+            />
+
+        <ImageView
+            android:id="@+id/btn_minus"
+            android:layout_width="@dimen/xuandq_dip_28"
+            android:layout_height="@dimen/xuandq_dip_28"
+            app:layout_constraintTop_toTopOf="@id/btn_plus"
+            app:layout_constraintBottom_toBottomOf="@id/btn_plus"
+            app:layout_constraintEnd_toStartOf="@id/tv_quantity"
+            android:src="@drawable/ic_minus"
+            android:background="@color/color_primary"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_total_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            point="@{viewModel.totalPoint}"
+            style="@style/TextStyleSub1"
+            app:layout_constraintTop_toBottomOf="@id/btn_plus"
+            android:layout_marginTop="@dimen/xuandq_dip_16"
+            android:layout_marginEnd="@dimen/xuandq_dip_16"
+            android:textColor="@color/red"
+            tools:text="10"
+            />
+
+        <View
+            android:id="@+id/view_line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_total_point"
+            android:layout_marginTop="@dimen/xuandq_dip_12"
+            android:background="@color/neutral_200"
+            />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/action_cancel"
+            android:background="@drawable/bg_primary_8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_ok"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            app:layout_constraintTop_toBottomOf="@id/view_line2"
+            android:layout_marginVertical="@dimen/xuandq_dip_8"
+            />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/action_ok"
+            enable="@{viewModel.canRedeem}"
+            android:background="@drawable/bg_primary_8"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            app:layout_constraintTop_toTopOf="@id/btn_cancel"
+            app:layout_constraintBottom_toBottomOf="@id/btn_cancel"
+            app:layout_constraintStart_toEndOf="@id/btn_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/xuandq_dip_16"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

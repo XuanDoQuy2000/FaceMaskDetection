@@ -11,6 +11,8 @@ import com.xuandq.facemaskdetection.databinding.ItemCustomerBinding
 class CustomerAdapter() : RecyclerView.Adapter<CustomerAdapter.ViewHolder>() {
     private val customers = ArrayList<CustomerUI>()
 
+    var itemClickListener: ((CustomerUI) -> Unit)? = null
+
     fun setData(customers: List<CustomerUI>) {
         this.customers.clear()
         this.customers.addAll(customers)
@@ -21,6 +23,9 @@ class CustomerAdapter() : RecyclerView.Adapter<CustomerAdapter.ViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bind(customer: CustomerUI) {
             binding.customer = customer
+            binding.root.setOnClickListener {
+                itemClickListener?.invoke(customer)
+            }
             binding.executePendingBindings()
         }
     }

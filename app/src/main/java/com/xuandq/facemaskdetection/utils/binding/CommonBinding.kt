@@ -19,7 +19,7 @@ fun setInvisibility(view: View, invisible: Boolean?) {
     view.visibility = if (invisible.isTrue()) View.INVISIBLE else View.VISIBLE
 }
 
-@BindingAdapter("selected")
-fun setSelected(view: View, selected: Boolean?) {
-    view.isSelected = selected ?: false
+@BindingAdapter("enable")
+fun setSelected(view: View, enable: Boolean?) {
+    view.isEnabled = enable ?: false
 }

@@ -33,15 +33,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:minHeight="48dp"
-        android:paddingVertical="6dp">
+        android:minHeight="@dimen/xuandq_dip_56"
+        android:elevation="@dimen/xuandq_dip_6"
+        android:paddingVertical="@dimen/xuandq_dip_6">
 
         <ImageView
             android:id="@+id/btnBack"
             isInvisible="@{!(shouldShowBackBtn??true)}"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="@dimen/xuandq_dip_36"
+            android:layout_height="@dimen/xuandq_dip_36"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -58,9 +59,9 @@
         <ImageView
             android:id="@+id/btnButtonRight"
             isVisible="@{rightButtonDrawable!=null}"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="@dimen/xuandq_dip_36"
+            android:layout_height="@dimen/xuandq_dip_36"
+            android:layout_marginEnd="@dimen/xuandq_dip_16"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -78,9 +79,9 @@
         <TextView
             android:id="@+id/tvTitle"
             style="@style/TextStyleSub1"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/xuandq_dip_0"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="56dp"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_56"
             android:ellipsize="end"
             android:gravity="center"
             android:lines="1"
@@ -96,10 +97,10 @@
             android:id="@+id/tvSubTitle"
             style="@style/TextStyleCaption"
             isVisible="@{subTitle!=null}"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/xuandq_dip_0"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="56dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_56"
+            android:layout_marginTop="@dimen/xuandq_dip_2"
             android:ellipsize="end"
             android:gravity="center"
             android:lines="1"
@@ -112,8 +113,8 @@
             tools:text="Subtitle nè" />
 
         <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="@dimen/xuandq_dip_0"
             android:clickable="@{titleOnClick!=null}"
             android:focusable="@{titleOnClick!=null}"
             android:foreground="?attr/selectableItemBackgroundBorderless"

@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddCustomerViewModel @Inject constructor(private val dataManager: DataManager) : ViewModel() {
     val loading by lazy { MutableLiveData<Boolean>() }
-    val error by lazy { MutableLiveData<BaseError>() }
+    val error by lazy { MutableLiveData<BaseError?>() }
 
     fun addCustomer(name: String?, phoneNumber: String?, onSuccess: () -> Unit) {
         if (name.isNullOrEmpty()) {
@@ -34,8 +34,13 @@ class AddCustomerViewModel @Inject constructor(private val dataManager: DataMana
                     createdTime = System.currentTimeMillis()
                 )
             )
-            if (result is Result.Success) {
-                onSuccess.invoke()
+            when (result) {
+                is Result.Success -> {
+                    onSuccess.invoke()
+                }
+                is Result.Error -> {
+                    error.value = result.error
+                }
             }
         }
     }

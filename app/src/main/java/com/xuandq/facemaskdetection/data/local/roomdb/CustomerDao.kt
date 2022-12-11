@@ -18,8 +18,8 @@ interface CustomerDao {
     fun update(customer: Customer)
 
     @Query("SELECT Customer.id, Customer.name, Customer.phoneNumber, Customer.createdTime, " +
-            "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else -1 END) * PointTransaction.pointTransaction) AS currentPoint, " +
-            "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else 0 END) * PointTransaction.pointTransaction) AS totalPoint " +
+            "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else -1 END) * PointTransaction.totalPoint) AS currentPoint, " +
+            "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else 0 END) * PointTransaction.totalPoint) AS totalPoint " +
             "FROM Customer " +
             "LEFT JOIN PointTransaction " +
             "ON Customer.id = PointTransaction.customerId " +
@@ -28,8 +28,8 @@ interface CustomerDao {
     fun getCustomersByPoint(offset: Int, pageSize: Int): List<CustomerUI>
 
     @Query("SELECT Customer.id, Customer.name, Customer.phoneNumber, Customer.createdTime, " +
-            "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else -1 END) * PointTransaction.pointTransaction) AS currentPoint, " +
-            "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else 0 END) * PointTransaction.pointTransaction) AS totalPoint " +
+            "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else -1 END) * PointTransaction.totalPoint) AS currentPoint, " +
+            "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else 0 END) * PointTransaction.totalPoint) AS totalPoint " +
             "FROM Customer " +
             "LEFT JOIN PointTransaction " +
             "ON Customer.id = PointTransaction.customerId " +

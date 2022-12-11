@@ -1,34 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="TextStyleH4">
+    <style name="MyBaseTextStyle">
+        <item name="android:textColor">@color/neutral_900</item>
+    </style>
+
+    <style name="TextStyleH1" parent="MyBaseTextStyle">
+        <item name="android:textSize">36sp</item>
+        <item name="android:fontFamily">@font/my_font_medium</item>
+    </style>
+
+    <style name="TextStyleH2" parent="MyBaseTextStyle">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/my_font_medium</item>
+    </style>
+
+    <style name="TextStyleH3" parent="MyBaseTextStyle">
         <item name="android:textSize">22sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/my_font_medium</item>
     </style>
 
-    <style name="TextStyleH5">
+    <style name="TextStyleH4" parent="MyBaseTextStyle">
         <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/my_font_medium</item>
     </style>
 
-    <style name="TextStyleSub1">
+    <style name="TextStyleH5" parent="MyBaseTextStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/my_font_medium</item>
+    </style>
+
+    <style name="TextStyleSub1" parent="MyBaseTextStyle">
         <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/my_font_medium</item>
     </style>
-    <style name="TextStyleSub2">
+
+    <style name="TextStyleSub2" parent="MyBaseTextStyle">
         <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/my_font_medium</item>
     </style>
-    <style name="TextStyleBody1">
+
+    <style name="TextStyleBody1" parent="MyBaseTextStyle">
         <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/my_font_regular</item>
     </style>
-    <style name="TextStyleBody2">
+
+    <style name="TextStyleBody2" parent="MyBaseTextStyle">
         <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/my_font_regular</item>
     </style>
-    <style name="TextStyleCaption">
+
+    <style name="TextStyleCaption" parent="MyBaseTextStyle">
         <item name="android:textSize">12sp</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/my_font_regular</item>
     </style>
+
 </resources>

@@ -24,9 +24,9 @@
         <SearchView
             android:id="@+id/edt_search"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="@dimen/xuandq_dip_44"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_8"
             android:background="@drawable/bg_edt_search_customer"
             android:iconifiedByDefault="false"
             android:queryBackground="@null"
@@ -36,8 +36,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_customer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="@dimen/xuandq_dip_0"
+            android:layout_marginTop="@dimen/xuandq_dip_16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edt_search"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -53,8 +53,8 @@
             app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="32dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="@dimen/xuandq_dip_32"
+            android:layout_marginEnd="@dimen/xuandq_dip_24"
             app:tint="@color/red"
             />
 

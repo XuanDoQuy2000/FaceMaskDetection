@@ -11,4 +11,19 @@
     <string name="notice">Thông báo</string>
     <string name="action_cancel">Hủy</string>
     <string name="action_ok">Đồng ý</string>
+    <string name="name">Tên</string>
+    <string name="customer_detail">Chi tiết khách hàng</string>
+    <string name="customer_name">Tên khách hàng</string>
+    <string name="customer_id">ID khách hàng</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="current_point">Số điểm đang có</string>
+    <string name="total_point">Tổng điểm</string>
+    <string name="accumulate_point">Tích điểm</string>
+    <string name="redeem_point">Đổi điểm</string>
+    <string name="view_history">Xem lịch sử</string>
+    <string name="hint_convert_money_to_point">Quy đổi: 20.000đ = 1.0 point</string>
+    <string name="value_point_convert_format">= %s point</string>
+    <string name="transaction_history">Lịch sử giao dịch</string>
+    <string name="choose_reward">Chọn quà</string>
+    <string name="choose_quantity">Chọn số lượng</string>
 </resources>

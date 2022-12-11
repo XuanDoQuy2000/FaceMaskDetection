@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/cameraFragment"
         android:name="com.xuandq.facemaskdetection.ui.camera.CameraFragment"
-        android:label="CameraFragment" >
+        android:label="CameraFragment">
         <action
             android:id="@+id/action_cameraFragment_to_searchCustomerFragment"
             app:destination="@id/searchCustomerFragment" />
@@ -19,10 +19,13 @@
     <fragment
         android:id="@+id/searchCustomerFragment"
         android:name="com.xuandq.facemaskdetection.ui.list_customer.ListCustomerFragment"
-        android:label="SearchCustomerFragment" >
+        android:label="SearchCustomerFragment">
         <action
             android:id="@+id/action_searchCustomerFragment_to_addCustomerFragment"
             app:destination="@id/addCustomerFragment" />
+        <action
+            android:id="@+id/action_searchCustomerFragment_to_customerDetailFragment"
+            app:destination="@id/customerDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/addCustomerFragment"
@@ -31,5 +34,54 @@
     <fragment
         android:id="@+id/listRewardFragment"
         android:name="com.xuandq.facemaskdetection.ui.list_reward.ListRewardFragment"
-        android:label="ListRewardFragment" />
+        android:label="ListRewardFragment">
+        <action
+            android:id="@+id/action_listRewardFragment_to_addRewardFragment"
+            app:destination="@id/addRewardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addRewardFragment"
+        android:name="com.xuandq.facemaskdetection.ui.add_reward.AddRewardFragment"
+        android:label="AddRewardFragment" />
+    <fragment
+        android:id="@+id/customerDetailFragment"
+        android:name="com.xuandq.facemaskdetection.ui.customer_detail.CustomerDetailFragment"
+        android:label="CustomerDetailFragment">
+        <argument
+            android:name="customer"
+            app:argType="com.xuandq.facemaskdetection.data.model.CustomerUI" />
+        <action
+            android:id="@+id/action_customerDetailFragment_to_accumulatePointFragment"
+            app:destination="@id/accumulatePointFragment" />
+        <action
+            android:id="@+id/action_customerDetailFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_customerDetailFragment_to_chooseRewardFragment"
+            app:destination="@id/chooseRewardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accumulatePointFragment"
+        android:name="com.xuandq.facemaskdetection.ui.accumulate.AccumulatePointFragment"
+        android:label="AccumulatePointFragment">
+        <argument
+            android:name="customer"
+            app:argType="com.xuandq.facemaskdetection.data.model.CustomerUI" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.xuandq.facemaskdetection.ui.history.HistoryFragment"
+        android:label="HistoryFragment">
+        <argument
+            android:name="customer"
+            app:argType="com.xuandq.facemaskdetection.data.model.CustomerUI" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseRewardFragment"
+        android:name="com.xuandq.facemaskdetection.ui.redeem.ChooseRewardFragment"
+        android:label="ChooseRewardFragment" >
+        <argument
+            android:name="customer"
+            app:argType="com.xuandq.facemaskdetection.data.model.CustomerUI" />
+    </fragment>
 </navigation>

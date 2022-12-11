@@ -1,6 +1,6 @@
 package com.xuandq.facemaskdetection.data.model.common
 
-sealed class BaseError {
-    data class Other(val message: String): BaseError()
-    data class DBError(val message: String): BaseError()
+sealed class BaseError(open val message: String) {
+    data class Other(override val message: String): BaseError(message)
+    data class DBError(override val message: String): BaseError(message)
 }

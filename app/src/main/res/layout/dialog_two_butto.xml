@@ -8,84 +8,84 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="4dp">
+        app:cardCornerRadius="@dimen/xuandq_dip_4">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minWidth="300dp">
+            android:minWidth="@dimen/xuandq_dip_300">
 
             <TextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/tv_title"
                 style="@style/TextStyleSub1"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/xuandq_dip_0"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/xuandq_dip_24"
                 android:gravity="center"
-                android:paddingHorizontal="24dp"
+                android:paddingHorizontal="@dimen/xuandq_dip_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Thong bao" />
 
             <TextView
-                android:id="@+id/tvMessage"
+                android:id="@+id/tv_message"
                 style="@style/TextStyleBody2"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/xuandq_dip_0"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/xuandq_dip_12"
                 android:gravity="center"
-                android:paddingHorizontal="24dp"
+                android:paddingHorizontal="@dimen/xuandq_dip_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
                 tools:text="Message" />
 
             <View
-                android:id="@+id/vHozLine"
+                android:id="@+id/view_hoz_line"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/xuandq_dip_24"
                 android:background="@color/gray3"
-                app:layout_constraintTop_toBottomOf="@+id/tvMessage" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_message" />
 
             <Button
-                android:id="@+id/btnNegative"
-                android:layout_width="0dp"
+                android:id="@+id/btn_negative"
+                android:layout_width="@dimen/xuandq_dip_0"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                android:minHeight="48dp"
+                android:minHeight="@dimen/xuandq_dip_48"
                 android:textAllCaps="false"
                 android:textColor="@color/gray3"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnPositive"
+                app:layout_constraintEnd_toStartOf="@+id/btn_positive"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vHozLine"
+                app:layout_constraintTop_toBottomOf="@+id/view_hoz_line"
                 tools:text="Cancel" />
 
             <Button
-                android:id="@+id/btnPositive"
-                android:layout_width="0dp"
+                android:id="@+id/btn_positive"
+                android:layout_width="@dimen/xuandq_dip_0"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                android:minHeight="48dp"
+                android:minHeight="@dimen/xuandq_dip_48"
                 android:textAllCaps="false"
                 android:textColor="@color/red"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btnNegative"
-                app:layout_constraintTop_toBottomOf="@+id/vHozLine"
+                app:layout_constraintStart_toEndOf="@+id/btn_negative"
+                app:layout_constraintTop_toBottomOf="@+id/view_hoz_line"
                 tools:text="OK" />
 
             <View
-                android:id="@+id/vVerLine"
+                android:id="@+id/view_ver_line"
                 android:layout_width="0.5dp"
                 android:layout_height="0dp"
                 android:background="@color/gray3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/vHozLine" />
+                app:layout_constraintTop_toTopOf="@+id/view_hoz_line" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

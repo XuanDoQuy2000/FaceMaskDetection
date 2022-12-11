@@ -96,7 +96,7 @@ class NoticeDialog : DialogFragment() {
 
         if (singleButton) {
             binding.btnNegative.visibility = View.GONE
-            binding.vVerLine.visibility = View.GONE
+            binding.viewVerLine.visibility = View.GONE
         } else {
             binding.btnNegative.setText(negativeButtonResId ?: R.string.action_cancel)
             binding.btnNegative.setOnClickListener {

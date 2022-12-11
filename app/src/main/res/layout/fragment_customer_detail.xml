@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xuandq.facemaskdetection.ui.customer_detail.CustomerDetailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.customer_detail.CustomerDetailFragment">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_toolbar"
+            title="@{@string/customer_detail}"
+            rightButtonDrawable="@{@drawable/ic_edit}"/>
+
+        <TextView
+            android:id="@+id/tv_id_title"
+            style="@style/TextStyleBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_32"
+            android:text="@string/customer_id"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <TextView
+            android:id="@+id/tv_id_value"
+            style="@style/TextStyleSub2"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:gravity="end"
+            android:text="@{viewModel.customer.id + ``}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_id_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/tv_id_title"
+            tools:text="1" />
+
+        <View
+            android:id="@+id/viewLine1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xuandq_dip_1"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:background="@color/neutral_200"
+            app:layout_constraintTop_toBottomOf="@id/tv_id_title" />
+
+
+        <TextView
+            android:id="@+id/tv_name_title"
+            style="@style/TextStyleBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:text="@string/customer_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewLine1" />
+
+        <TextView
+            android:id="@+id/tv_name_value"
+            style="@style/TextStyleSub2"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:gravity="end"
+            android:text="@{viewModel.customer.name}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_name_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/tv_name_title"
+            tools:text="Do xuan" />
+
+        <View
+            android:id="@+id/viewLine2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xuandq_dip_1"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:background="@color/neutral_200"
+            app:layout_constraintTop_toBottomOf="@id/tv_name_title" />
+
+        <TextView
+            android:id="@+id/tv_phone_title"
+            style="@style/TextStyleBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:text="@string/phone_number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewLine2" />
+
+        <TextView
+            android:id="@+id/tv_phone_value"
+            style="@style/TextStyleSub2"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:gravity="end"
+            android:text="@{viewModel.customer.phoneNumber}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_phone_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/tv_phone_title"
+            tools:text="0337009194" />
+
+        <View
+            android:id="@+id/viewLine3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xuandq_dip_1"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:background="@color/neutral_200"
+            app:layout_constraintTop_toBottomOf="@id/tv_phone_title" />
+
+        <TextView
+            android:id="@+id/tv_current_point_title"
+            style="@style/TextStyleBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:text="@string/current_point"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewLine3" />
+
+        <TextView
+            android:id="@+id/tv_current_point_value"
+            style="@style/TextStyleSub2"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:gravity="end"
+            android:textColor="@color/red"
+            point="@{viewModel.customer.getCurrentPointValue()}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_current_point_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/tv_current_point_title"
+            tools:text="120" />
+
+        <View
+            android:id="@+id/viewLine4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xuandq_dip_1"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:background="@color/neutral_200"
+            app:layout_constraintTop_toBottomOf="@id/tv_current_point_title" />
+
+        <TextView
+            android:id="@+id/tv_total_point_title"
+            style="@style/TextStyleBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:text="@string/total_point"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewLine4" />
+
+        <TextView
+            android:id="@+id/tv_total_point_value"
+            style="@style/TextStyleSub2"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:gravity="end"
+            point="@{viewModel.customer.getTotalPointValue()}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_total_point_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/tv_total_point_title"
+            tools:text="120" />
+
+        <View
+            android:id="@+id/viewLine5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xuandq_dip_1"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:background="@color/neutral_200"
+            app:layout_constraintTop_toBottomOf="@id/tv_total_point_title" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="tv_name_title, tv_id_title, tv_phone_title, tv_current_point_title, tv_total_point_title" />
+
+        <Button
+            android:id="@+id/btn_accumulate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/accumulate_point"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            app:layout_constraintTop_toBottomOf="@id/viewLine5"
+            android:layout_marginTop="@dimen/xuandq_dip_20"
+            />
+
+        <Button
+            android:id="@+id/btn_redeem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/redeem_point"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            app:layout_constraintTop_toBottomOf="@id/btn_accumulate"
+            android:layout_marginTop="@dimen/xuandq_dip_8"
+            />
+
+        <Button
+            android:id="@+id/btn_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/view_history"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            app:layout_constraintTop_toBottomOf="@id/btn_redeem"
+            android:layout_marginTop="@dimen/xuandq_dip_8"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
