@@ -32,6 +32,7 @@ class ListRewardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         binding.rvReward.adapter = rewardAdapter
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.toolbar.btnButtonRight.setOnClickListener {
 
