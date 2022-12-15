@@ -20,7 +20,7 @@ interface PointTransactionDao {
                 "PointTransaction.type, PointTransaction.quantity, PointTransaction.totalPoint " +
                 "FROM PointTransaction " +
                 "JOIN Customer ON PointTransaction.customerId = Customer.id " +
-                "JOIN Reward ON PointTransaction.rewardId = Reward.id OR PointTransaction.rewardId IS NULL " +
+                "LEFT JOIN Reward ON PointTransaction.rewardId = Reward.id " +
                 "WHERE customerId = :customerId " +
                 "ORDER BY timeStamp " +
                 "DESC LIMIT :pageSize " +

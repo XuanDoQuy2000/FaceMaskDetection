@@ -24,7 +24,6 @@
             android:id="@+id/rv_transaction"
             android:layout_width="match_parent"
             android:layout_height="@dimen/xuandq_dip_0"
-            android:layout_marginTop="@dimen/xuandq_dip_16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
