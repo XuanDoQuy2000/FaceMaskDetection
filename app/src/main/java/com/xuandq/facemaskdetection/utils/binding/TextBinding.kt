@@ -24,7 +24,7 @@ fun setPointFloat(view: TextView, value: Float?, type: String?, defaultValue: Fl
 
 @BindingAdapter("pointInt")
 fun setPointInt(view: TextView, value: Int?) {
-    view.text = value?.toString() ?: ""
+    view.text = value?.toFloat()?.toPointString() ?: ""
 }
 
 @BindingAdapter("dateTime")

@@ -9,7 +9,7 @@ import com.xuandq.facemaskdetection.data.model.CustomerUI
 interface CustomerDao {
 
     @Insert
-    fun insert(customer: Customer)
+    fun insert(customer: Customer): Long
 
     @Delete
     fun delete(customer: Customer)
@@ -36,5 +36,5 @@ interface CustomerDao {
             "WHERE (name LIKE '%' || :keyword || '%') OR (phoneNumber LIKE '%' || :keyword || '%')" +
             "GROUP BY Customer.id " +
             "ORDER BY totalPoint ASC LIMIT :pageSize OFFSET :offset")
-    fun searchCustomers(keyword: String, offset: Int, pageSize: Int): List<Customer>
+    fun searchCustomers(keyword: String, offset: Int, pageSize: Int): List<CustomerUI>
 }

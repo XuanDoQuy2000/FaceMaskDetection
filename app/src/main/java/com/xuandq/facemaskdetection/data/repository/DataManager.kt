@@ -1,17 +1,17 @@
 package com.xuandq.facemaskdetection.data.repository
 
-import com.xuandq.facemaskdetection.data.local.LocalDataSource
+import com.xuandq.facemaskdetection.data.local.DatabaseDataSource
+import com.xuandq.facemaskdetection.data.local.DiskDataSource
 import com.xuandq.facemaskdetection.data.model.*
 import com.xuandq.facemaskdetection.data.model.common.Result
 import com.xuandq.facemaskdetection.data.remote.RemoteDataSource
 import com.xuandq.facemaskdetection.utils.DEFAULT_PAGE_SIZE
-import com.xuandq.facemaskdetection.utils.PointConverter
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class DataManager @Inject constructor(
-    private val local: LocalDataSource,
+    private val local: DatabaseDataSource,
     private val remote: RemoteDataSource,
+    private val disk: DiskDataSource
 ) {
     suspend fun getCustomersByPoint(
         page: Int,
@@ -20,8 +20,15 @@ class DataManager @Inject constructor(
         return local.getCustomersByPoint(page, pageSize)
     }
 
-    suspend fun addCustomer(customer: Customer): Result<Unit> {
-        return local.addCustomer(customer)
+    suspend fun addCustomer(customer: Customer, images: List<Image>?): Result<Unit> {
+        return when (val result = local.addCustomer(customer)) {
+            is Result.Success -> {
+                disk.addImagesForCustomer(result.data.toInt(), images)
+            }
+            is Result.Error -> {
+                Result.Error(result.error)
+            }
+        }
     }
 
     suspend fun addReward(reward: Reward): Result<Unit> {
@@ -62,5 +69,31 @@ class DataManager @Inject constructor(
 
     suspend fun getTransactionsByCustomer(customerId: Int, page: Int, pageSize: Int = DEFAULT_PAGE_SIZE): Result<List<PointTransactionUI>> {
         return local.getTransactionByCustomer(customerId, page, pageSize)
+    }
+
+    suspend fun getImagesByCustomer(customerId: Int): Result<List<Image>> {
+        return disk.getImagesByCustomer(customerId)
+    }
+
+    suspend fun updateCustomer(customer: Customer, images: List<Image>): Result<Unit> {
+        val result = local.updateCustomer(customer)
+        return if (result is Result.Success) {
+            disk.updateImagesForCustomer(customer.id, images)
+        } else {
+            result
+        }
+    }
+
+    suspend fun deleteCustomer(customer: Customer): Result<Unit> {
+        val result = local.deleteCustomer(customer)
+        return if (result is Result.Success) {
+            disk.deleteAllImageCustomer(customer.id)
+        } else {
+            result
+        }
+    }
+
+    suspend fun updateReward(reward: Reward): Result<Unit> {
+        return  local.updateReward(reward)
     }
 }

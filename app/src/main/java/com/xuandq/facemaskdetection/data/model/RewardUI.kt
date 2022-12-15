@@ -17,7 +17,7 @@ data class RewardUI (
     val usedQuantity: Int? = null,
 ) : Parcelable {
 
-    fun getPointValue() = point ?: 0F
+    fun getPointValue() = point?.toFloat() ?: 0F
 
     fun getQuantityText() : String {
         return "${usedQuantity ?: 0} / ${totalQuantity ?: 0}"

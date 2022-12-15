@@ -25,6 +25,10 @@
             type="android.graphics.drawable.Drawable" />
 
         <variable
+            name="rightButton2Drawable"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
             name="titleOnClick"
             type="android.view.View.OnClickListener" />
     </data>
@@ -33,8 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:minHeight="@dimen/xuandq_dip_56"
         android:elevation="@dimen/xuandq_dip_6"
+        android:minHeight="@dimen/xuandq_dip_56"
         android:paddingVertical="@dimen/xuandq_dip_6">
 
         <ImageView
@@ -72,23 +76,41 @@
             app:layout_constraintBottom_toBottomOf="@+id/tvSubTitle"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            app:tint="@color/neutral_900"
             tools:ignore="UnusedAttribute"
             tools:src="@drawable/ic_back"
             tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/btnButtonRight2"
+            isVisible="@{rightButton2Drawable != null}"
+            android:layout_width="@dimen/xuandq_dip_36"
+            android:layout_height="@dimen/xuandq_dip_36"
+            android:layout_marginRight="@dimen/xuandq_dip_8"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="centerInside"
+            android:src="@{rightButton2Drawable}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnButtonRight"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/neutral_900"
+            tools:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/tvTitle"
             style="@style/TextStyleSub1"
             android:layout_width="@dimen/xuandq_dip_0"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/xuandq_dip_56"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_8"
             android:ellipsize="end"
             android:gravity="center"
             android:lines="1"
             android:text="@{title}"
             app:layout_constraintBottom_toTopOf="@+id/tvSubTitle"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/btnBack"
+            app:layout_constraintRight_toLeftOf="@id/btnButtonRight2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Title nè" />
@@ -99,7 +121,6 @@
             isVisible="@{subTitle!=null}"
             android:layout_width="@dimen/xuandq_dip_0"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/xuandq_dip_56"
             android:layout_marginTop="@dimen/xuandq_dip_2"
             android:ellipsize="end"
             android:gravity="center"
@@ -107,8 +128,8 @@
             android:text="@{subTitle}"
             android:textColor="@color/neutral_700"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/tvTitle"
+            app:layout_constraintRight_toRightOf="@id/tvTitle"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             tools:text="Subtitle nè" />
 

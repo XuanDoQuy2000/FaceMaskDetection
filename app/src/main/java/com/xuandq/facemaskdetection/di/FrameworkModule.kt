@@ -2,6 +2,7 @@ package com.xuandq.facemaskdetection.di
 
 import android.content.Context
 import androidx.room.Room
+import com.xuandq.facemaskdetection.data.local.DiskDataSource
 import com.xuandq.facemaskdetection.data.local.roomdb.AppDatabase
 import com.xuandq.facemaskdetection.data.local.roomdb.CustomerDao
 import com.xuandq.facemaskdetection.data.local.roomdb.PointTransactionDao

@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.xuandq.facemaskdetection.R
 import com.xuandq.facemaskdetection.data.model.CustomerUI
 import com.xuandq.facemaskdetection.databinding.FragmentCustomerDetailBinding
+import com.xuandq.facemaskdetection.ui.dialog.NoticeDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,6 +50,27 @@ class CustomerDetailFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        binding.toolbar.btnButtonRight.setOnClickListener {
+            findNavController().navigate(
+                CustomerDetailFragmentDirections.actionCustomerDetailFragmentToEditCustomerFragment(
+                    viewModel.getCustomerValue()!!
+                )
+            )
+        }
+
+        binding.toolbar.btnButtonRight2.setOnClickListener {
+            NoticeDialog()
+                .message("Bạn muốn xóa khách hàng này?")
+                .singleButton(false)
+                .positiveButton(R.string.action_ok) {
+                    viewModel.deleteCustomer {
+                        Toast.makeText(context, "Xóa Thành công", Toast.LENGTH_SHORT).show()
+                        findNavController().popBackStack()
+                    }
+                }
+                .show(parentFragmentManager, "success")
+        }
+
         binding.btnAccumulate.setOnClickListener {
             if (viewModel.getCustomerValue() != null) {
                 findNavController().navigate(
@@ -78,5 +101,4 @@ class CustomerDetailFragment : Fragment() {
             }
         }
     }
-
 }

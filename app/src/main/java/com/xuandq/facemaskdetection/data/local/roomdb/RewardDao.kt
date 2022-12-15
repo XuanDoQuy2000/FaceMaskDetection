@@ -17,10 +17,10 @@ interface RewardDao {
     fun update(reward: Reward)
 
     @Query("SELECT Reward.id, Reward.name, Reward.description, Reward.point, Reward.totalQuantity, Reward.createdTime, " +
-            "SUM(CASE WHEN PointTransaction.type = 'MINUS' then 1 else 0 END) AS usedQuantity " +
+            "SUM((CASE WHEN PointTransaction.type = 'MINUS' then 1 else 0 END) * PointTransaction.quantity) AS usedQuantity " +
             "FROM Reward " +
             "LEFT JOIN PointTransaction " +
-            "ON Reward.id = PointTransaction.id " +
+            "ON Reward.id = PointTransaction.rewardId " +
             "GROUP BY Reward.id")
     fun getAll(): List<RewardUI>
 }

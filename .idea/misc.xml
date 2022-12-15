@@ -29,6 +29,18 @@
         <entry key="..\:/Users/admin/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/item_transaction.xml" value="0.5" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/layout_toolbar.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/tripi_prepaid_dialog_two_button.xml" value="0.3625" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/drawable/base_button_effect.xml" value="0.227" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/bts_change_quantity_reward.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/fragment_add_customer.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/fragment_customer_detail.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/fragment_edit_customer.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/fragment_quantity_reward_bottom_sheet.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/fragment_reward_detail.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/item_customer.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/item_image.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/item_reward.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/item_transaction.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/dqxuan/AndroidStudioProjects/FaceMaskDetection/app/src/main/res/layout/layout_toolbar.xml" value="0.358695652173913" />
       </map>
     </option>
   </component>

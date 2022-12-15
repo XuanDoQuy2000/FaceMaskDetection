@@ -17,8 +17,9 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/layout_toolbar"
-            title="@{@string/customer_detail}"
-            rightButtonDrawable="@{@drawable/ic_edit}"/>
+            app:title="@{@string/customer_detail}"
+            app:rightButtonDrawable="@{@drawable/ic_edit}"
+            app:rightButton2Drawable="@{@drawable/ic_delete}"/>
 
         <TextView
             android:id="@+id/tv_id_title"

@@ -26,4 +26,13 @@
     <string name="transaction_history">Lịch sử giao dịch</string>
     <string name="choose_reward">Chọn quà</string>
     <string name="choose_quantity">Chọn số lượng</string>
+    <string name="delete">Xóa</string>
+    <string name="edit_customer">Sửa khách hàng</string>
+    <string name="reward_id">ID quà</string>
+    <string name="reward_name">Tên</string>
+    <string name="reward_description">Mô tả</string>
+    <string name="reward_point">Số điểm đổi</string>
+    <string name="reward_used_quantity">Sử dụng</string>
+    <string name="reward_detail">Chi tiết quà</string>
+    <string name="update_quantity_reward">Cập nhật số lượng</string>
 </resources>

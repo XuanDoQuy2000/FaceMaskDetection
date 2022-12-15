@@ -1,6 +1,8 @@
 package com.xuandq.facemaskdetection.di
 
-import com.xuandq.facemaskdetection.data.local.LocalDataSource
+import android.content.Context
+import com.xuandq.facemaskdetection.data.local.DatabaseDataSource
+import com.xuandq.facemaskdetection.data.local.DiskDataSource
 import com.xuandq.facemaskdetection.data.local.roomdb.CustomerDao
 import com.xuandq.facemaskdetection.data.local.roomdb.PointTransactionDao
 import com.xuandq.facemaskdetection.data.local.roomdb.RewardDao
@@ -9,6 +11,7 @@ import com.xuandq.facemaskdetection.data.repository.DataManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -22,10 +25,16 @@ object RepositoryModule {
         customerDao: CustomerDao,
         transactionDao: PointTransactionDao,
         rewardDao: RewardDao,
-    ): LocalDataSource {
-        return LocalDataSource(
+    ): DatabaseDataSource {
+        return DatabaseDataSource(
             customerDao, rewardDao, transactionDao
         )
+    }
+
+    @Singleton
+    @Provides
+    fun provideDiskDataSource(@ApplicationContext context: Context): DiskDataSource {
+        return DiskDataSource(context)
     }
 
     @Singleton
@@ -36,7 +45,7 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideRepository(local: LocalDataSource, remote: RemoteDataSource): DataManager {
-        return DataManager(local, remote)
+    fun provideRepository(local: DatabaseDataSource, remote: RemoteDataSource, disk: DiskDataSource): DataManager {
+        return DataManager(local, remote, disk)
     }
 }

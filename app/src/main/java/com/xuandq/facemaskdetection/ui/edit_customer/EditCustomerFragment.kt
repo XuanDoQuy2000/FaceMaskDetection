@@ -1,60 +1,154 @@
 package com.xuandq.facemaskdetection.ui.edit_customer
 
+import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.github.dhaval2404.imagepicker.ImagePicker
+import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.xuandq.facemaskdetection.R
+import com.xuandq.facemaskdetection.data.model.Image
+import com.xuandq.facemaskdetection.databinding.FragmentEditCustomerBinding
+import com.xuandq.facemaskdetection.ui.add_customer.ImageAdapter
+import com.xuandq.facemaskdetection.ui.dialog.NoticeDialog
+import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EditCustomerFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class EditCustomerFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private val viewModel: EditCustomerViewModel by viewModels()
+    lateinit var binding: FragmentEditCustomerBinding
+    private val imageAdapter = ImageAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            val customer = EditCustomerFragmentArgs.fromBundle(it).customer
+            viewModel.initData(customer)
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_customer, container, false)
+    ): View {
+        binding = FragmentEditCustomerBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditCustomerFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditCustomerFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+
+        binding.rvImage.layoutManager = GridLayoutManager(context, 3)
+        binding.rvImage.adapter = imageAdapter
+
+        imageAdapter.onEnableSelectedChange = {
+            viewModel.setShowDeleteValue(it)
+        }
+
+        binding.edtName.setText(viewModel.customer.value?.name ?: "")
+        binding.edtPhone.setText(viewModel.customer.value?.phoneNumber ?: "")
+
+        binding.toolbar.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.toolbar.btnButtonRight.setOnClickListener {
+            viewModel.updateCustomer(
+                binding.edtName.text?.toString(),
+                binding.edtPhone.text?.toString()
+            ) {
+                NoticeDialog()
+                    .message("Cập nhật khách hàng thành công")
+                    .singleButton(true)
+                    .positiveButton(R.string.action_ok) {
+                        findNavController().popBackStack()
+                    }
+                    .show(parentFragmentManager, "success")
+            }
+        }
+
+        binding.btnAddImage.setOnClickListener {
+            ImagePicker.with(this)
+                .galleryOnly()
+                .cropSquare()
+                .compress(512)
+                .createIntent {
+                    startForProfileImageResult.launch(it)
+                }
+        }
+
+        binding.btnDelete.setOnClickListener {
+            viewModel.removeSelectedImages()
+        }
+
+        viewModel.images.observe(viewLifecycleOwner) {
+            Log.d("ppp", "onViewCreated: $it")
+            imageAdapter.setData(it ?: ArrayList(), false)
+        }
+
+        viewModel.showDelete.observe(viewLifecycleOwner) {
+
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            it ?: return@observe
+            NoticeDialog()
+                .message(it.message)
+                .singleButton(true)
+                .show(parentFragmentManager, "error")
+            viewModel.error.value = null
+        }
+    }
+
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    //Image Uri will not be null for RESULT_OK
+                    val fileUri = data?.data!!
+                    Log.d("ppp", "file uri: $fileUri")
+                    onPickImageSuccess(fileUri)
+                }
+                ImagePicker.RESULT_ERROR -> {
+                    Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+    private fun onPickImageSuccess(uri: Uri) {
+        context?.let { context ->
+            try {
+                val path = FileUriUtils.getRealPath(context, uri) ?: ""
+                val file = File(path)
+                viewModel.addImageToPreview(
+                    Image(
+                        path = file.absolutePath,
+                        name = file.name,
+                        extension = file.extension
+                    )
+                )
+            } catch (e: Exception) {
+                Toast.makeText(context, "Lỗi chọn ảnh. Vui lòng thử lại", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

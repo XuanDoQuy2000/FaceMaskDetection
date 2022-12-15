@@ -33,6 +33,14 @@ class ListRewardFragment : Fragment() {
         binding.viewModel = viewModel
         binding.rvReward.adapter = rewardAdapter
 
+        rewardAdapter.itemClickListener = {
+            findNavController().navigate(
+                ListRewardFragmentDirections.actionListRewardFragmentToRewardDetailFragment(
+                    it
+                )
+            )
+        }
+
         binding.toolbar.btnButtonRight.setOnClickListener {
 
         }

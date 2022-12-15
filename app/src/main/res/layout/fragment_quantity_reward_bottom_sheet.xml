@@ -67,6 +67,30 @@
             tools:text="10.0"
             />
 
+        <TextView
+            android:id="@+id/tv_current_point_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đang có: "
+            style="@style/TextStyleBody2"
+            app:layout_constraintStart_toStartOf="@id/tv_reward_point"
+            android:layout_marginTop="@dimen/xuandq_dip_16"
+            app:layout_constraintTop_toBottomOf="@id/tv_reward_point"
+            />
+
+        <TextView
+            android:id="@+id/tv_current_point_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            point="@{viewModel.customer.currentPoint}"
+            style="@style/TextStyleSub2"
+            app:layout_constraintStart_toEndOf="@id/tv_current_point_title"
+            android:layout_marginStart="@dimen/xuandq_dip_4"
+            android:layout_marginTop="@dimen/xuandq_dip_16"
+            app:layout_constraintTop_toBottomOf="@id/tv_reward_point"
+            tools:text="4,0"
+            />
+
         <ImageView
             android:id="@+id/btn_plus"
             android:layout_width="@dimen/xuandq_dip_28"

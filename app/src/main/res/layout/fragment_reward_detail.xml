@@ -1,14 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.reward_detail.RewardDetailFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+        <variable
+            name="viewModel"
+            type="com.xuandq.facemaskdetection.ui.reward_detail.RewardDetailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".ui.reward_detail.RewardDetailFragment">
 
-</FrameLayout>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_toolbar"
+            app:rightButtonDrawable="@{@drawable/ic_edit}"
+            app:title="@{@string/reward_detail}" />
+
+        <TextView
+            android:id="@+id/tv_id_title"
+            style="@style/TextStyleBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_32"
+            android:text="@string/reward_id"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <TextView
+            android:id="@+id/tv_id_value"
+            style="@style/TextStyleSub2"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:gravity="end"
+            android:text="@{viewModel.reward.id + ``}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_id_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/tv_id_title"
+            tools:text="1" />
+
+        <View
+            android:id="@+id/viewLine1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xuandq_dip_1"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:background="@color/neutral_200"
+            app:layout_constraintTop_toBottomOf="@id/tv_id_title" />
+
+
+        <TextView
+            android:id="@+id/tv_name_title"
+            style="@style/TextStyleBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:text="@string/reward_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewLine1" />
+
+        <TextView
+            android:id="@+id/tv_name_value"
+            style="@style/TextStyleSub2"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:gravity="end"
+            android:text="@{viewModel.reward.name}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_name_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/tv_name_title"
+            tools:text="Do xuan" />
+
+        <View
+            android:id="@+id/viewLine2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xuandq_dip_1"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:background="@color/neutral_200"
+            app:layout_constraintTop_toBottomOf="@id/tv_name_title" />
+
+        <TextView
+            android:id="@+id/tv_desr_title"
+            style="@style/TextStyleBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:text="@string/reward_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewLine2" />
+
+        <TextView
+            android:id="@+id/tv_desr_value"
+            style="@style/TextStyleSub2"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:gravity="end"
+            android:text="@{viewModel.reward.description}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_desr_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/tv_desr_title"
+            tools:text="0337009194" />
+
+        <View
+            android:id="@+id/viewLine3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xuandq_dip_1"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:background="@color/neutral_200"
+            app:layout_constraintTop_toBottomOf="@id/tv_desr_title" />
+
+        <TextView
+            android:id="@+id/tv_point_title"
+            style="@style/TextStyleBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:text="@string/reward_point"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewLine3" />
+
+        <TextView
+            android:id="@+id/tv_point_value"
+            style="@style/TextStyleSub2"
+            point="@{viewModel.reward.getPointValue()}"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:gravity="end"
+            android:textColor="@color/red"
+            app:layout_constraintBottom_toBottomOf="@id/tv_point_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/tv_point_title"
+            tools:text="120" />
+
+        <View
+            android:id="@+id/viewLine4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xuandq_dip_1"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:background="@color/neutral_200"
+            app:layout_constraintTop_toBottomOf="@id/tv_point_title" />
+
+        <TextView
+            android:id="@+id/tv_quantity_title"
+            style="@style/TextStyleBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:text="@string/reward_used_quantity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewLine4" />
+
+        <TextView
+            android:id="@+id/tv_quantity_value"
+            style="@style/TextStyleSub2"
+            android:layout_width="@dimen/xuandq_dip_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:gravity="end"
+            android:text="@{viewModel.reward.getQuantityText()}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_quantity_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/tv_quantity_title"
+            tools:text="20/120" />
+
+        <View
+            android:id="@+id/viewLine5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xuandq_dip_1"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_14"
+            android:background="@color/neutral_200"
+            app:layout_constraintTop_toBottomOf="@id/tv_quantity_title" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="right"
+            app:constraint_referenced_ids="tv_id_title,tv_name_title,tv_desr_title,tv_point_title,tv_quantity_title" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

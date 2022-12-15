@@ -1,14 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.edit_customer.EditCustomerFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+        <variable
+            name="viewModel"
+            type="com.xuandq.facemaskdetection.ui.edit_customer.EditCustomerViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".ui.edit_customer.EditCustomerFragment">
 
-</FrameLayout>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_toolbar"
+            app:rightButtonDrawable="@{@drawable/ic_done}"
+            app:title="@{@string/edit_customer}"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tip_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:theme="@style/TrpTrainCustomTextInputLayout"
+            app:boxBackgroundColor="@color/transparent"
+            app:boxStrokeErrorColor="@color/red"
+            app:errorIconDrawable="@null"
+            app:errorTextColor="@color/red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_12"
+            android:hint="Full name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textCapWords"
+                android:paddingEnd="@dimen/xuandq_dip_24"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tip_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:theme="@style/TrpTrainCustomTextInputLayout"
+            app:boxBackgroundColor="@color/transparent"
+            app:boxStrokeErrorColor="@color/red"
+            app:errorIconDrawable="@null"
+            app:errorTextColor="@color/red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tip_name"
+            android:layout_marginHorizontal="@dimen/xuandq_dip_16"
+            android:layout_marginTop="@dimen/xuandq_dip_16"
+            android:hint="Phone Number">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_phone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:imeOptions="actionDone"
+                android:inputType="phone"
+                android:paddingEnd="@dimen/xuandq_dip_24"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_add_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xuandq_dip_32"
+            android:layout_marginStart="@dimen/xuandq_dip_16"
+            android:text="@string/add_image"
+            android:textAllCaps="false"
+            app:layout_constraintTop_toBottomOf="@id/tip_phone"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            isVisible="@{viewModel.showDelete}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_add_image"
+            android:layout_marginEnd="@dimen/xuandq_dip_16"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/btn_add_image"
+            android:layout_marginTop="@dimen/xuandq_dip_8"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

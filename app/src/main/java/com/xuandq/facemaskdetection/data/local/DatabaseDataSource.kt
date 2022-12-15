@@ -1,6 +1,5 @@
 package com.xuandq.facemaskdetection.data.local
 
-import com.xuandq.facemaskdetection.data.local.files.CustomerFileStore
 import com.xuandq.facemaskdetection.data.local.roomdb.CustomerDao
 import com.xuandq.facemaskdetection.data.local.roomdb.PointTransactionDao
 import com.xuandq.facemaskdetection.data.local.roomdb.RewardDao
@@ -11,14 +10,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class LocalDataSource @Inject constructor(
+class DatabaseDataSource @Inject constructor(
     private val customerDao: CustomerDao,
     private val rewardDao: RewardDao,
-    private val transactionDao: PointTransactionDao,
-    private val fileStore: CustomerFileStore
+    private val transactionDao: PointTransactionDao
 ) {
 
-    suspend fun addCustomer(customer: Customer): Result<Unit> = withContext(Dispatchers.IO) {
+    suspend fun addCustomer(customer: Customer): Result<Long> = withContext(Dispatchers.IO) {
         return@withContext try {
             Result.Success(customerDao.insert(customer))
         } catch (e: Exception) {
@@ -72,23 +70,27 @@ class LocalDataSource @Inject constructor(
         }
     }
 
-    suspend fun addImageForCustomer(customerId: Int, path: String): Result<Unit> {
-        return withContext(Dispatchers.IO) {
-            try {
-                Result.Success(fileStore.insertImageForCustomer(customerId, path))
-            } catch (e: Exception) {
-                Result.Error(BaseError.FileError(e.message ?: ""))
-            }
+    suspend fun updateCustomer(customer: Customer): Result<Unit> = withContext(Dispatchers.IO) {
+        return@withContext try {
+            Result.Success(customerDao.update(customer))
+        } catch (e: Exception) {
+            Result.Error(BaseError.DBError(e.message ?: ""))
         }
     }
 
-    suspend fun getImagesByCustomer(customerId: Int): Result<List<Image>> {
-        return withContext(Dispatchers.IO) {
-            try {
-                Result.Success(fileStore.getImagesByCustomer(customerId))
-            } catch (e: Exception) {
-                Result.Error(BaseError.FileError(e.message ?: ""))
-            }
+    suspend fun deleteCustomer(customer: Customer): Result<Unit> = withContext(Dispatchers.IO) {
+        return@withContext try {
+            Result.Success(customerDao.delete(customer))
+        } catch (e: Exception) {
+            Result.Error(BaseError.DBError(e.message ?: ""))
+        }
+    }
+
+    suspend fun updateReward(reward: Reward): Result<Unit> = withContext(Dispatchers.IO) {
+        return@withContext try {
+            Result.Success(rewardDao.update(reward))
+        } catch (e: Exception) {
+            Result.Error(BaseError.DBError(e.message ?: ""))
         }
     }
 }

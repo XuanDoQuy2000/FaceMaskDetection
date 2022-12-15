@@ -327,6 +327,6 @@ createDimen {
     positiveMaxSP = 48
     negativeMaxDP = 60
     negativeMaxSP = 20
-    type = DimenType.FROM_LAYOUT
+    type = DimenType.AUTO_CREATE
     dimenFileName = 'values/dimens.xml' // name of file, for type = DimenType.FROM_DIMEN_FILE only
 }

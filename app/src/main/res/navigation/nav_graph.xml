@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_listRewardFragment_to_addRewardFragment"
             app:destination="@id/addRewardFragment" />
+        <action
+            android:id="@+id/action_listRewardFragment_to_rewardDetailFragment"
+            app:destination="@id/rewardDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/addRewardFragment"
@@ -59,6 +62,9 @@
         <action
             android:id="@+id/action_customerDetailFragment_to_chooseRewardFragment"
             app:destination="@id/chooseRewardFragment" />
+        <action
+            android:id="@+id/action_customerDetailFragment_to_editCustomerFragment"
+            app:destination="@id/editCustomerFragment" />
     </fragment>
     <fragment
         android:id="@+id/accumulatePointFragment"
@@ -83,5 +89,21 @@
         <argument
             android:name="customer"
             app:argType="com.xuandq.facemaskdetection.data.model.CustomerUI" />
+    </fragment>
+    <fragment
+        android:id="@+id/editCustomerFragment"
+        android:name="com.xuandq.facemaskdetection.ui.edit_customer.EditCustomerFragment"
+        android:label="EditCustomerFragment" >
+        <argument
+            android:name="customer"
+            app:argType="com.xuandq.facemaskdetection.data.model.CustomerUI" />
+    </fragment>
+    <fragment
+        android:id="@+id/rewardDetailFragment"
+        android:name="com.xuandq.facemaskdetection.ui.reward_detail.RewardDetailFragment"
+        android:label="RewardDetailFragment" >
+        <argument
+            android:name="reward"
+            app:argType="com.xuandq.facemaskdetection.data.model.RewardUI" />
     </fragment>
 </navigation>

@@ -13,7 +13,6 @@ data class Customer(
     val name: String? = null,
     val phoneNumber: String? = null,
     val createdTime: Long? = null,
-    val imageUri: String? = null,
 ) : Parcelable {
 
 }
