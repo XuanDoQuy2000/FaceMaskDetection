@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Face Mask Detection</string>
+    <string name="app_name">Tích điểm đổi quà</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="manage_customer">Quản lý khách hàng</string>

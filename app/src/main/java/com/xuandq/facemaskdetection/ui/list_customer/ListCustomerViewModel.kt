@@ -10,6 +10,8 @@ import com.xuandq.facemaskdetection.data.model.common.BaseError
 import com.xuandq.facemaskdetection.data.model.common.Result
 import com.xuandq.facemaskdetection.data.repository.DataManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +22,8 @@ class ListCustomerViewModel @Inject constructor(private val dataManager: DataMan
 
     val customers: MutableLiveData<List<CustomerUI>> by lazy { MutableLiveData() }
     var page: Int = 0
+    var keyword = ""
+    var searchJob: Job? = null
 
     fun refreshCustomers() {
         page = 0
@@ -27,8 +31,8 @@ class ListCustomerViewModel @Inject constructor(private val dataManager: DataMan
     }
 
     private fun getCustomers() {
-        viewModelScope.launch {
-            when(val result = dataManager.getCustomersByPoint(page)) {
+        searchJob = viewModelScope.launch {
+            when(val result = dataManager.getCustomersByPoint(keyword, page)) {
                 is Result.Success -> {
                     Log.d("ppp", "getCustomers: ${result.data}")
                     customers.value = result.data
@@ -38,5 +42,11 @@ class ListCustomerViewModel @Inject constructor(private val dataManager: DataMan
                 }
             }
         }
+    }
+
+    fun searchCustomers(keyword: String) {
+        this.keyword = keyword
+        page = 0
+        getCustomers()
     }
 }

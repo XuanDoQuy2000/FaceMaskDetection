@@ -1,7 +1,9 @@
 package com.xuandq.facemaskdetection.di
 
 import android.content.Context
+import androidx.room.PrimaryKey
 import androidx.room.Room
+import com.xuandq.facemaskdetection.analyzer.FaceNetModel
 import com.xuandq.facemaskdetection.data.local.DiskDataSource
 import com.xuandq.facemaskdetection.data.local.roomdb.AppDatabase
 import com.xuandq.facemaskdetection.data.local.roomdb.CustomerDao
@@ -41,5 +43,16 @@ object FrameworkModule {
     @Provides
     fun provideTransactionDao(db: AppDatabase): PointTransactionDao {
         return db.transactionDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFaceNetModel(@ApplicationContext context: Context): FaceNetModel {
+        return FaceNetModel(
+            context,
+            10f,
+            128,
+            160
+        )
     }
 }

@@ -54,6 +54,7 @@ dependencies {
 
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation "androidx.fragment:fragment-ktx:1.5.4"
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
     //coroutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
@@ -75,6 +76,7 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-task-vision:0.4.0'
     implementation 'org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0'
     implementation 'org.tensorflow:tensorflow-lite-gpu:2.9.0'
+    implementation 'org.tensorflow:tensorflow-lite:2.9.0'
 
     // ML Kit - face detection
     implementation 'com.google.mlkit:face-detection:16.1.5'

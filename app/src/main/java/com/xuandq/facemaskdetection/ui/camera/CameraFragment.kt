@@ -8,20 +8,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.google.mlkit.vision.face.Face
-import com.xuandq.facemaskdetection.analyzer.FaceMaskAnalyzer
-import com.xuandq.facemaskdetection.analyzer.ImageClassifierHelper
+import com.xuandq.facemaskdetection.analyzer.FrameAnalyzer
+import com.xuandq.facemaskdetection.analyzer.FaceNetModel
 import com.xuandq.facemaskdetection.databinding.FragmentCameraBinding
 import com.xuandq.facemaskdetection.utils.FaceGraphic
-import org.tensorflow.lite.task.vision.classifier.Classifications
+import dagger.hilt.android.AndroidEntryPoint
+import org.tensorflow.lite.support.label.Category
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
-class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
+@AndroidEntryPoint
+class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
 
     private lateinit var binding: FragmentCameraBinding
 
@@ -32,12 +36,14 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
     private lateinit var cameraExecutor: ExecutorService
-    private var faceMaskAnalyzer: FaceMaskAnalyzer? = null
+    private var frameAnalyzer: FrameAnalyzer? = null
+    @Inject
+    lateinit var faceNetModel: FaceNetModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCameraBinding.inflate(LayoutInflater.from(context), container, false)
         return binding.root
     }
@@ -48,7 +54,7 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        faceMaskAnalyzer = context?.let { FaceMaskAnalyzer(it, true, this) }
+        frameAnalyzer = context?.let { FrameAnalyzer(it, true, faceNetModel, this) }
 
         binding.previewView.post {
             setUpCamera()
@@ -111,7 +117,7 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
                 .build()
                 // The analyzer can then be assigned to the instance
                 .also {
-                    faceMaskAnalyzer?.let { analyzer -> it.setAnalyzer(cameraExecutor, analyzer) }
+                    frameAnalyzer?.let { analyzer -> it.setAnalyzer(cameraExecutor, analyzer) }
                 }
 
         // Must unbind the use-cases before rebinding them
@@ -141,26 +147,47 @@ class CameraFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
 
     }
 
-    override fun onResults(face: Face?, results: List<Classifications>?, inferenceTime: Long) {
-        if (::binding.isInitialized) {
-            val firstClassfication = results?.firstOrNull()
-            val categories = firstClassfication?.categories?.sortedBy { it.score }
-            val firstCategory = categories?.firstOrNull()
-            Log.d("aaa", "onResults: result = ${firstCategory.toString()}")
-            activity?.runOnUiThread {
-                binding.txtResult.text =
-                    "${firstCategory.toString()}"
-            }
-        }
-    }
-
-    override fun onFaceDetected(faces: List<Face>, bitmap: Bitmap) {
+    override fun onDetectFaceSuccess(faces: List<Face>) {
         if (::binding.isInitialized) {
             binding.graphicOverlay.clear()
             for (face in faces) {
                 binding.graphicOverlay.add(FaceGraphic(binding.graphicOverlay, face))
             }
-            binding.facePreview.setImageBitmap(bitmap)
+//            binding.facePreview.setImageBitmap(bitmap)
+        }
+    }
+
+    var maskTime = 0L
+    val listMask = ArrayList<Category?>()
+    override fun onDetectMaskSuccess(face: Face?, result: Category?) {
+        if (::binding.isInitialized) {
+            activity?.runOnUiThread {
+                binding.txtDetectMaskResult.text =
+                    result.toString()
+            }
+            if (System.currentTimeMillis() - maskTime <= 1000) {
+                listMask.add(result)
+            } else {
+                val maskCount = listMask.count {
+                    it?.index == 1
+                }
+                maskTime = if (maskCount.toDouble() / listMask.size >= 0.75){
+                    Toast.makeText(context,"deo khau trang vao ku", Toast.LENGTH_SHORT).show()
+                    System.currentTimeMillis() + 5000
+                } else {
+                    System.currentTimeMillis()
+                }
+                listMask.clear()
+            }
+        }
+    }
+
+    override fun onRecognizeFaceSuccess(face: Face?, customerId: Int?) {
+        if (::binding.isInitialized) {
+            activity?.runOnUiThread {
+                binding.txtRecognizeFaceResult.text =
+                    customerId.toString()
+            }
         }
     }
 }

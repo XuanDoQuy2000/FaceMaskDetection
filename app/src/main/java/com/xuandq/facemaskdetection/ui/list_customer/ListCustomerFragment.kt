@@ -1,11 +1,15 @@
 package com.xuandq.facemaskdetection.ui.list_customer
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import com.xuandq.facemaskdetection.databinding.FragmentListCustomerBinding
 import com.xuandq.facemaskdetection.ui.dialog.NoticeDialog
@@ -19,6 +23,21 @@ class ListCustomerFragment : Fragment() {
 
     private val customerAdapter = CustomerAdapter()
 
+    private val textWatcher by lazy {
+        object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.searchCustomers(query ?: "")
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchCustomers(newText ?: "")
+                return true
+            }
+
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -26,7 +45,7 @@ class ListCustomerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentListCustomerBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -75,6 +94,12 @@ class ListCustomerFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.refreshCustomers()
+        binding.edtSearch.setOnQueryTextListener(textWatcher)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.edtSearch.setOnQueryTextListener(null)
     }
 
 }
