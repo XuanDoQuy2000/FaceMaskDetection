@@ -1,8 +1,9 @@
 package com.xuandq.facemaskdetection.data.local
 
 import android.content.Context
-import android.util.Log
-import com.xuandq.facemaskdetection.data.model.Customer
+import android.graphics.Bitmap
+import com.bumptech.glide.Glide
+import com.xuandq.facemaskdetection.analyzer.FaceNetModel
 import com.xuandq.facemaskdetection.data.model.Image
 import com.xuandq.facemaskdetection.data.model.common.BaseError
 import com.xuandq.facemaskdetection.data.model.common.Result
@@ -10,7 +11,10 @@ import kotlinx.coroutines.*
 import java.io.File
 import javax.inject.Inject
 
-class DiskDataSource @Inject constructor(val context: Context) {
+class DiskDataSource @Inject constructor(
+    private val context: Context,
+    private val faceNetModel: FaceNetModel,
+) {
     private fun getImages(customerId: Int): List<Image> {
         val folder = File(context.filesDir, customerId.toString())
         val listFileNames = folder.listFiles() ?: arrayOf()
@@ -97,4 +101,52 @@ class DiskDataSource @Inject constructor(val context: Context) {
                 Result.Error(BaseError.FileError("Xóa ảnh không thành công"))
             }
         }
+
+    suspend fun getAllImageCustomer(): Result<List<Image>> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                val listImage = ArrayList<Image>()
+                val listCustomer = context.filesDir.listFiles() ?: arrayOf()
+                for (customer in listCustomer) {
+                    if (!customer.isDirectory) continue
+                    val customerId = customer.name.toInt()
+                    for (f in (customer.listFiles() ?: arrayOf())) {
+                        listImage.add(
+                            Image(
+                                path = f.absolutePath,
+                                name = f.name,
+                                customerId = customerId,
+                                extension = f.extension
+                            )
+                        )
+                    }
+                }
+                Result.Success(listImage)
+            } catch (e: Exception) {
+                Result.Error(BaseError.FileError(e.message ?: ""))
+            }
+        }
+
+    suspend fun getAllImageCustomerEmbedding(): Result<List<Pair<Int, FloatArray>>> {
+        return when (val images = getAllImageCustomer()) {
+            is Result.Error -> {
+                images
+            }
+            is Result.Success -> {
+                withContext(Dispatchers.Default) {
+                    try {
+                        Result.Success(images.data.map {
+                            it.customerId!! to faceNetModel.getFaceEmbedding(
+                                withContext(Dispatchers.IO) {
+                                    Glide.with(context).asBitmap().load(it.path).submit().get()
+                                }
+                            )
+                        })
+                    } catch (e: Exception) {
+                        Result.Error(BaseError.FileError(e.message ?: ""))
+                    }
+                }
+            }
+        }
+    }
 }

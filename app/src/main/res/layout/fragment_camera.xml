@@ -19,12 +19,20 @@
             android:layout_marginBottom="@dimen/xuandq_dip_24"
             android:background="@color/black_25"
             android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/txt_result"
+                android:id="@+id/txt_detect_mask_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                tools:text="mask" />
+
+            <TextView
+                android:id="@+id/txt_recognize_face_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"

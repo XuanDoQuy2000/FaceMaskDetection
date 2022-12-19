@@ -14,10 +14,15 @@ class DataManager @Inject constructor(
     private val disk: DiskDataSource
 ) {
     suspend fun getCustomersByPoint(
+        keyword: String? = null,
         page: Int,
         pageSize: Int = DEFAULT_PAGE_SIZE
     ): Result<List<CustomerUI>> {
-        return local.getCustomersByPoint(page, pageSize)
+        return if (!keyword.isNullOrBlank()) local.searchCustomer(
+            keyword,
+            page,
+            pageSize
+        ) else local.getCustomersByPoint(page, pageSize)
     }
 
     suspend fun addCustomer(customer: Customer, images: List<Image>?): Result<Unit> {
@@ -52,7 +57,12 @@ class DataManager @Inject constructor(
         )
     }
 
-    suspend fun redeemPoint(customerId: Int, rewardId: Int, point: Int, quantity: Int): Result<Unit> {
+    suspend fun redeemPoint(
+        customerId: Int,
+        rewardId: Int,
+        point: Int,
+        quantity: Int
+    ): Result<Unit> {
         return local.addTransaction(
             PointTransaction(
                 id = 0,
@@ -67,7 +77,11 @@ class DataManager @Inject constructor(
         )
     }
 
-    suspend fun getTransactionsByCustomer(customerId: Int, page: Int, pageSize: Int = DEFAULT_PAGE_SIZE): Result<List<PointTransactionUI>> {
+    suspend fun getTransactionsByCustomer(
+        customerId: Int,
+        page: Int,
+        pageSize: Int = DEFAULT_PAGE_SIZE
+    ): Result<List<PointTransactionUI>> {
         return local.getTransactionByCustomer(customerId, page, pageSize)
     }
 
@@ -94,6 +108,10 @@ class DataManager @Inject constructor(
     }
 
     suspend fun updateReward(reward: Reward): Result<Unit> {
-        return  local.updateReward(reward)
+        return local.updateReward(reward)
+    }
+
+    suspend fun getAllImageCustomerEmbedding(): Result<List<Pair<Int, FloatArray>>> {
+        return disk.getAllImageCustomerEmbedding()
     }
 }

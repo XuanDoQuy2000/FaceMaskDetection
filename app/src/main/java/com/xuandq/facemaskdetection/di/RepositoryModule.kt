@@ -1,6 +1,7 @@
 package com.xuandq.facemaskdetection.di
 
 import android.content.Context
+import com.xuandq.facemaskdetection.analyzer.FaceNetModel
 import com.xuandq.facemaskdetection.data.local.DatabaseDataSource
 import com.xuandq.facemaskdetection.data.local.DiskDataSource
 import com.xuandq.facemaskdetection.data.local.roomdb.CustomerDao
@@ -33,8 +34,8 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideDiskDataSource(@ApplicationContext context: Context): DiskDataSource {
-        return DiskDataSource(context)
+    fun provideDiskDataSource(@ApplicationContext context: Context, faceNetModel: FaceNetModel): DiskDataSource {
+        return DiskDataSource(context,faceNetModel)
     }
 
     @Singleton

@@ -93,4 +93,13 @@ class DatabaseDataSource @Inject constructor(
             Result.Error(BaseError.DBError(e.message ?: ""))
         }
     }
+
+    suspend fun searchCustomer(query: String, page: Int, pageSize: Int): Result<List<CustomerUI>> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                Result.Success(customerDao.searchCustomers(query, page * pageSize, pageSize))
+            } catch (e: Exception) {
+                Result.Error(BaseError.DBError(e.message ?: ""))
+            }
+        }
 }
