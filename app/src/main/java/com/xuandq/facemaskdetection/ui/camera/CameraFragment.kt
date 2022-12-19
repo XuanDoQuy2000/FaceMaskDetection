@@ -1,21 +1,24 @@
 package com.xuandq.facemaskdetection.ui.camera
 
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
-import androidx.camera.core.*
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.mlkit.vision.face.Face
-import com.xuandq.facemaskdetection.analyzer.FrameAnalyzer
+import com.xuandq.facemaskdetection.R
 import com.xuandq.facemaskdetection.analyzer.FaceNetModel
+import com.xuandq.facemaskdetection.analyzer.FrameAnalyzer
 import com.xuandq.facemaskdetection.databinding.FragmentCameraBinding
 import com.xuandq.facemaskdetection.utils.FaceGraphic
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +26,7 @@ import org.tensorflow.lite.support.label.Category
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
@@ -37,6 +41,10 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
     private var cameraProvider: ProcessCameraProvider? = null
     private lateinit var cameraExecutor: ExecutorService
     private var frameAnalyzer: FrameAnalyzer? = null
+
+    private var enableMaskDetector = false
+    private var enableFaceRecognition = false
+
     @Inject
     lateinit var faceNetModel: FaceNetModel
 
@@ -50,15 +58,16 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setStatusBarColor(true)
         binding.lifecycleOwner = viewLifecycleOwner
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         frameAnalyzer = context?.let { FrameAnalyzer(it, true, faceNetModel, this) }
 
-        binding.previewView.post {
-            setUpCamera()
-        }
+//        binding.previewView.post {
+//            setUpCamera()
+//        }
 
         binding.btnManageCustomer.setOnClickListener {
             findNavController().navigate(CameraFragmentDirections.actionCameraFragmentToSearchCustomerFragment())
@@ -67,11 +76,41 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
         binding.btnManageReward.setOnClickListener {
             findNavController().navigate(CameraFragmentDirections.actionCameraFragmentToListRewardFragment())
         }
+
+        binding.btnDetectMask.setOnClickListener {
+            enableMaskDetector = !enableMaskDetector
+            binding.btnDetectMask.setColorFilter(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (enableMaskDetector) R.color.yellow else R.color.white
+                )
+            )
+            if (enableMaskDetector || enableFaceRecognition) {
+                it.post {
+                    setUpCamera()
+                }
+            }
+        }
+
+        binding.btnRecognizeFace.setOnClickListener {
+            enableFaceRecognition = !enableFaceRecognition
+            binding.btnRecognizeFace.setColorFilter(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (enableFaceRecognition) R.color.yellow else R.color.white
+                )
+            )
+            if (enableMaskDetector || enableFaceRecognition) {
+                it.post{
+                    setUpCamera()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-
+        setStatusBarColor(false)
         // Shut down our background executor
         cameraExecutor.shutdown()
     }
@@ -143,6 +182,21 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
         }
     }
 
+    private fun setStatusBarColor(dark: Boolean) {
+        activity?.let {
+            val window: Window = it.window
+            var flags = window.decorView.systemUiVisibility
+            flags = if (dark) {
+                flags xor View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            } else {
+                flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+            window.decorView.systemUiVisibility = flags
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = if (dark) Color.BLACK else (Color.WHITE)
+        }
+    }
+
     override fun onError(error: String) {
 
     }
@@ -171,8 +225,8 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
                 val maskCount = listMask.count {
                     it?.index == 1
                 }
-                maskTime = if (maskCount.toDouble() / listMask.size >= 0.75){
-                    Toast.makeText(context,"deo khau trang vao ku", Toast.LENGTH_SHORT).show()
+                maskTime = if (maskCount.toDouble() / listMask.size >= 0.75) {
+                    Toast.makeText(context, "deo khau trang vao ku", Toast.LENGTH_SHORT).show()
                     System.currentTimeMillis() + 5000
                 } else {
                     System.currentTimeMillis()

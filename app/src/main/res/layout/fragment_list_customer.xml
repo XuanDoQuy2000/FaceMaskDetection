@@ -18,8 +18,8 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/layout_toolbar"
-            title="@{@string/manage_customer}"
-            rightButtonDrawable="@{@drawable/ic_more_vert}"/>
+            app:title="@{@string/manage_customer}"
+            app:rightButtonDrawable="@{@drawable/ic_more_vert}"/>
 
         <SearchView
             android:id="@+id/edt_search"

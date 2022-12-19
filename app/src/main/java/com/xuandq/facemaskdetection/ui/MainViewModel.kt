@@ -26,7 +26,7 @@ class MainViewModel @Inject constructor(private val dataManager: DataManager): V
                     isReady = true
                 }
                 is Result.Error -> {
-
+                    Log.d("ppp", "error: ${result.error}")
                 }
             }
         }

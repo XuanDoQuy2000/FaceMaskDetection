@@ -2,6 +2,7 @@ package com.xuandq.facemaskdetection.data.local
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.xuandq.facemaskdetection.analyzer.FaceNetModel
 import com.xuandq.facemaskdetection.data.model.Image
@@ -136,6 +137,7 @@ class DiskDataSource @Inject constructor(
                 withContext(Dispatchers.Default) {
                     try {
                         Result.Success(images.data.map {
+                            Log.d("ppp", "getAllImageCustomerEmbedding: ${it.path}")
                             it.customerId!! to faceNetModel.getFaceEmbedding(
                                 withContext(Dispatchers.IO) {
                                     Glide.with(context).asBitmap().load(it.path).submit().get()

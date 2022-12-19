@@ -3,7 +3,6 @@ package com.xuandq.facemaskdetection.analyzer
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
-import com.xuandq.facemaskdetection.data.model.common.Result
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.common.FileUtil
@@ -15,8 +14,9 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import org.tensorflow.lite.support.tensorbuffer.TensorBufferFloat
 import java.nio.ByteBuffer
 import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.math.*
+import kotlin.math.max
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class FaceNetModel @Inject constructor(
     private val context: Context,

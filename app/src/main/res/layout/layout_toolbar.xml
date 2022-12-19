@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:elevation="@dimen/xuandq_dip_6"
-        android:minHeight="@dimen/xuandq_dip_56"
+        android:minHeight="?attr/actionBarSize"
         android:paddingVertical="@dimen/xuandq_dip_6">
 
         <ImageView
@@ -86,7 +86,7 @@
             isVisible="@{rightButton2Drawable != null}"
             android:layout_width="@dimen/xuandq_dip_36"
             android:layout_height="@dimen/xuandq_dip_36"
-            android:layout_marginRight="@dimen/xuandq_dip_8"
+            android:layout_marginEnd="@dimen/xuandq_dip_8"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
