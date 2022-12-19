@@ -62,7 +62,7 @@
 
         <ImageView
             android:id="@+id/btnButtonRight"
-            isVisible="@{rightButtonDrawable!=null}"
+            isInvisible="@{rightButtonDrawable==null}"
             android:layout_width="@dimen/xuandq_dip_36"
             android:layout_height="@dimen/xuandq_dip_36"
             android:layout_marginEnd="@dimen/xuandq_dip_16"

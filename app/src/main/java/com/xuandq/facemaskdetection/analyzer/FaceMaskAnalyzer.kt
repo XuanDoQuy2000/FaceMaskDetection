@@ -66,13 +66,12 @@ class FaceMaskAnalyzer(
         faceDetector.process(inputImage)
             .addOnSuccessListener { faces ->
                 if (!faces.isNullOrEmpty()) {
-                    Log.d("aaa", "detectFace: ${inputImage.width} - ${inputImage.height}")
                     val bitmapProxy = imageProxy.toBitmap() ?: Bitmap.createBitmap(
                         imageProxy.width,
                         imageProxy.height,
                         Bitmap.Config.ARGB_8888
                     )
-                    val croppedFaces = cropFaceToBitmap(faces, bitmapProxy)
+                    val croppedFaces = cropFaceToBitmap(faces.take(1), bitmapProxy)
                     bitmapProxy.recycle()
                     if (croppedFaces.isNotEmpty()) {
                         bitmapBuffer = croppedFaces.first()
@@ -97,11 +96,6 @@ class FaceMaskAnalyzer(
     private fun cropFaceToBitmap(faces: List<Face>, originBitmap: Bitmap): List<Bitmap> {
         val croppedFaces = mutableListOf<Bitmap>()
         for (face in faces) {
-//            Log.d("bbb", "detectFace:${originBitmap.width} - ${originBitmap.height}")
-//            Log.d(
-//                "bbb",
-//                "detectFace: ${face.boundingBox.left} - ${face.boundingBox.right} - ${face.boundingBox.top} - ${face.boundingBox.bottom}"
-//            )
             val faceBox = face.boundingBox
             val left = (if (isFlipped) originBitmap.width - faceBox.right else faceBox.left).coerceIn(0, originBitmap.width)
             val right = (if (isFlipped) originBitmap.width - faceBox.left else faceBox.right).coerceIn(0, originBitmap.width)
@@ -109,7 +103,6 @@ class FaceMaskAnalyzer(
             val bottom = faceBox.bottom.coerceIn(0, originBitmap.height)
             val width = right - left
             val height = bottom - top
-//            Log.d("bbb", "cropFaceToBitmap: $left - $right")
             if (width > face.boundingBox.width() * 0.75 && height > face.boundingBox.height() * 0.75) {
                 val faceBitmap = Bitmap.createBitmap(
                     originBitmap,
@@ -123,7 +116,6 @@ class FaceMaskAnalyzer(
         }
         return croppedFaces
     }
-
 }
 
 @SuppressLint("UnsafeOptInUsageError")
