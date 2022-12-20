@@ -114,4 +114,8 @@ class DataManager @Inject constructor(
     suspend fun getAllImageCustomerEmbedding(): Result<List<Pair<Int, FloatArray>>> {
         return disk.getAllImageCustomerEmbedding()
     }
+
+    suspend fun getCustomerById(customerId: Int): Result<CustomerUI> {
+        return local.getCustomerById(customerId)
+    }
 }

@@ -9,13 +9,13 @@ import com.xuandq.facemaskdetection.data.model.CustomerUI
 interface CustomerDao {
 
     @Insert
-    fun insert(customer: Customer): Long
+    suspend fun insert(customer: Customer): Long
 
     @Delete
-    fun delete(customer: Customer)
+    suspend fun delete(customer: Customer)
 
     @Update
-    fun update(customer: Customer)
+    suspend fun update(customer: Customer)
 
     @Query("SELECT Customer.id, Customer.name, Customer.phoneNumber, Customer.createdTime, " +
             "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else -1 END) * PointTransaction.totalPoint) AS currentPoint, " +
@@ -25,7 +25,7 @@ interface CustomerDao {
             "ON Customer.id = PointTransaction.customerId " +
             "GROUP BY Customer.id " +
             "ORDER BY totalPoint ASC LIMIT :pageSize OFFSET :offset")
-    fun getCustomersByPoint(offset: Int, pageSize: Int): List<CustomerUI>
+    suspend fun getCustomersByPoint(offset: Int, pageSize: Int): List<CustomerUI>
 
     @Query("SELECT Customer.id, Customer.name, Customer.phoneNumber, Customer.createdTime, " +
             "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else -1 END) * PointTransaction.totalPoint) AS currentPoint, " +
@@ -36,5 +36,15 @@ interface CustomerDao {
             "WHERE (name LIKE '%' || :keyword || '%') OR (phoneNumber LIKE '%' || :keyword || '%')" +
             "GROUP BY Customer.id " +
             "ORDER BY totalPoint ASC LIMIT :pageSize OFFSET :offset")
-    fun searchCustomers(keyword: String, offset: Int, pageSize: Int): List<CustomerUI>
+    suspend fun searchCustomers(keyword: String, offset: Int, pageSize: Int): List<CustomerUI>
+
+    @Query("SELECT Customer.id, Customer.name, Customer.phoneNumber, Customer.createdTime, " +
+            "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else -1 END) * PointTransaction.totalPoint) AS currentPoint, " +
+            "SUM((CASE WHEN PointTransaction.type = 'PLUS' then 1 else 0 END) * PointTransaction.totalPoint) AS totalPoint " +
+            "FROM Customer " +
+            "LEFT JOIN PointTransaction " +
+            "ON Customer.id = PointTransaction.customerId " +
+            "WHERE Customer.id = :customerId " +
+            "GROUP BY Customer.id ")
+    suspend fun getCustomerById(customerId: Int): CustomerUI
 }

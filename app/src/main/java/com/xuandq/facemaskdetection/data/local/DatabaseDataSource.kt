@@ -102,4 +102,14 @@ class DatabaseDataSource @Inject constructor(
                 Result.Error(BaseError.DBError(e.message ?: ""))
             }
         }
+
+    suspend fun getCustomerById(customerId: Int): Result<CustomerUI> {
+        return withContext(Dispatchers.IO) {
+            try {
+                Result.Success(customerDao.getCustomerById(customerId))
+            } catch (e: Exception) {
+                Result.Error(BaseError.DBError(e.message ?: ""))
+            }
+        }
+    }
 }

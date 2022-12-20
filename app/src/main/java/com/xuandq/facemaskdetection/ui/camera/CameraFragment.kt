@@ -14,6 +14,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.mlkit.vision.face.Face
 import com.xuandq.facemaskdetection.R
@@ -44,6 +45,8 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
 
     private var enableMaskDetector = false
     private var enableFaceRecognition = false
+
+    private val viewModel: CameraViewModel by viewModels()
 
     @Inject
     lateinit var faceNetModel: FaceNetModel
@@ -101,7 +104,7 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
                 )
             )
             if (enableMaskDetector || enableFaceRecognition) {
-                it.post{
+                it.post {
                     setUpCamera()
                 }
             }
@@ -236,11 +239,27 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
         }
     }
 
+    var recognizeTime = 0L
+    val listRecogResult = mutableListOf<Pair<Int?, Face>>()
+    var resultFace: Face? = null
     override fun onRecognizeFaceSuccess(face: Face?, customerId: Int?) {
         if (::binding.isInitialized) {
             activity?.runOnUiThread {
                 binding.txtRecognizeFaceResult.text =
                     customerId.toString()
+            }
+        }
+        face ?: return
+        if (System.currentTimeMillis() - recognizeTime <= 1000) {
+            listRecogResult.add(customerId to face)
+        } else {
+            val maxFrequency = listRecogResult.groupBy { it.first }.maxBy { it.value.size }
+            if (maxFrequency.value.size.toDouble() / listRecogResult.size >= 0.75) {
+                if (maxFrequency.key != null) {
+                    viewModel.addCustomerToRecent(maxFrequency.key!!)
+                } else {
+                    // TODO have new Customer
+                }
             }
         }
     }
