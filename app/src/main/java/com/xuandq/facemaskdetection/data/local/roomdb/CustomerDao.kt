@@ -1,6 +1,5 @@
 package com.xuandq.facemaskdetection.data.local.roomdb
 
-import androidx.paging.PagingSource
 import androidx.room.*
 import com.xuandq.facemaskdetection.data.model.Customer
 import com.xuandq.facemaskdetection.data.model.CustomerUI

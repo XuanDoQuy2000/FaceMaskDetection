@@ -34,7 +34,7 @@ class FaceMaskModel(
     var threshold: Float = 0.5f,
     var numThreads: Int = 2,
     var maxResults: Int = 3,
-    var currentDelegate: Int = 0,
+    var currentDelegate: Int = 1,
     val context: Context,
     var imageClassifierListener: FrameAnalyzer.AnalyzeListener? = null
 ) {

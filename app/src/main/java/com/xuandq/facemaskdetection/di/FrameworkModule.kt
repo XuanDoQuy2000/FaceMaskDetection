@@ -50,7 +50,7 @@ object FrameworkModule {
     fun provideFaceNetModel(@ApplicationContext context: Context): FaceNetModel {
         return FaceNetModel(
             context,
-            10f,
+            20f,
             128,
             160
         )

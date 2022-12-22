@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.util.Log
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
+import org.tensorflow.lite.gpu.CompatibilityList
+import org.tensorflow.lite.gpu.GpuDelegate
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.common.TensorOperator
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -19,10 +21,10 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 class FaceNetModel @Inject constructor(
-    private val context: Context,
+    context: Context,
     private val l2Threshold: Float,
     private val outputDims: Int,
-    private val inputDims: Int,
+    inputDims: Int,
 ) {
     private var interpreter: Interpreter
     private val imageTensorProcessor = ImageProcessor.Builder()
@@ -31,8 +33,14 @@ class FaceNetModel @Inject constructor(
         .build()
 
     init {
+        val compatList = CompatibilityList()
         val interpreterOptions = Interpreter.Options().apply {
-            numThreads = 4
+            if(compatList.isDelegateSupportedOnThisDevice){
+                val delegateOptions = compatList.bestOptionsForThisDevice
+                this.addDelegate(GpuDelegate(delegateOptions))
+            } else {
+                this.numThreads = 4
+            }
         }
         interpreter =
             Interpreter(FileUtil.loadMappedFile(context, MODEL_NAME), interpreterOptions)

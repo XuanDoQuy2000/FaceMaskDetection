@@ -31,6 +31,9 @@ class FrameAnalyzer(
 
     private lateinit var maskDetection: FaceMaskModel
 
+    var enableDetectMask = false
+    var enableRecogFace = false
+
     init {
         setUpProcessors()
     }
@@ -76,9 +79,12 @@ class FrameAnalyzer(
                     bitmapProxy.recycle()
                     if (croppedFaces.isNotEmpty()) {
                         bitmapBuffer = croppedFaces.first()
-                        val maskCategory = maskDetection.classify(bitmapBuffer, 1)
-                        listener.onDetectMaskSuccess(targetFace, maskCategory)
-                        if (maskCategory?.index == 1) {
+                        var maskCategory: Category? = Category("",0f)
+                        if (enableDetectMask) {
+                            maskCategory = maskDetection.classify(bitmapBuffer, 1)
+                            listener.onDetectMaskSuccess(targetFace, maskCategory)
+                        }
+                        if (enableRecogFace && (maskCategory?.index == 1 || maskCategory?.index == -1)) {
                             val customerId = faceNetModel.recognizeFace(bitmapBuffer, FaceEmbeddingRepository.facesEmbedding)
                             listener.onRecognizeFaceSuccess(targetFace, customerId)
                         } else {

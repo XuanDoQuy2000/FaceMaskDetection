@@ -16,11 +16,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.mlkit.vision.face.Face
 import com.xuandq.facemaskdetection.R
 import com.xuandq.facemaskdetection.analyzer.FaceNetModel
 import com.xuandq.facemaskdetection.analyzer.FrameAnalyzer
 import com.xuandq.facemaskdetection.databinding.FragmentCameraBinding
+import com.xuandq.facemaskdetection.ui.list_customer.CustomerAdapter
 import com.xuandq.facemaskdetection.utils.FaceGraphic
 import dagger.hilt.android.AndroidEntryPoint
 import org.tensorflow.lite.support.label.Category
@@ -47,6 +49,7 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
     private var enableFaceRecognition = false
 
     private val viewModel: CameraViewModel by viewModels()
+    private val adapter = CustomerAdapter()
 
     @Inject
     lateinit var faceNetModel: FaceNetModel
@@ -64,9 +67,15 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
         setStatusBarColor(true)
         binding.lifecycleOwner = viewLifecycleOwner
 
+        BottomSheetBehavior.from(binding.standardBottomSheet.root).apply {
+            peekHeight = 50
+        }
+
+        binding.standardBottomSheet.rvRecentCustomer.adapter = adapter
+
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        frameAnalyzer = context?.let { FrameAnalyzer(it, true, faceNetModel, this) }
+        frameAnalyzer = context?.let { FrameAnalyzer(it, false, faceNetModel, this) }
 
 //        binding.previewView.post {
 //            setUpCamera()
@@ -82,32 +91,47 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
 
         binding.btnDetectMask.setOnClickListener {
             enableMaskDetector = !enableMaskDetector
+            frameAnalyzer?.enableDetectMask = enableMaskDetector
             binding.btnDetectMask.setColorFilter(
                 ContextCompat.getColor(
                     requireContext(),
                     if (enableMaskDetector) R.color.yellow else R.color.white
                 )
             )
-            if (enableMaskDetector || enableFaceRecognition) {
-                it.post {
-                    setUpCamera()
+            if (!enableFaceRecognition) {
+                if (enableMaskDetector) {
+                    it.post {
+                        setUpCamera()
+                    }
+                } else {
+                    cameraProvider?.unbindAll()
                 }
             }
         }
 
         binding.btnRecognizeFace.setOnClickListener {
             enableFaceRecognition = !enableFaceRecognition
+            frameAnalyzer?.enableRecogFace = enableFaceRecognition
             binding.btnRecognizeFace.setColorFilter(
                 ContextCompat.getColor(
                     requireContext(),
                     if (enableFaceRecognition) R.color.yellow else R.color.white
                 )
             )
-            if (enableMaskDetector || enableFaceRecognition) {
-                it.post {
-                    setUpCamera()
+            if (!enableMaskDetector) {
+                if (enableFaceRecognition) {
+                    it.post {
+                        setUpCamera()
+                    }
+                } else {
+                    cameraProvider?.unbindAll()
                 }
             }
+        }
+
+        viewModel.recentCustomers.observe(viewLifecycleOwner) {
+            Log.d("ppp", "onViewCreated: ${it ?: emptyList()}")
+            adapter.setData(it ?: emptyList())
         }
     }
 
@@ -140,7 +164,7 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
 
         // CameraSelector - makes assumption that we're only using the back camera
         val cameraSelector =
-            CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT).build()
+            CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
 
         // Preview. Only using the 4:3 ratio because this is the closest to our models
         preview =
@@ -175,7 +199,7 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
             binding.graphicOverlay.setImageSourceInfo(
                 720,
                 1280,
-                true
+                false
             )
 
             // Attach the viewfinder's surface provider to preview use case
@@ -229,7 +253,7 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
                     it?.index == 1
                 }
                 maskTime = if (maskCount.toDouble() / listMask.size >= 0.75) {
-                    Toast.makeText(context, "deo khau trang vao ku", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Nhắc nhở đeo khẩu trang", Toast.LENGTH_SHORT).show()
                     System.currentTimeMillis() + 5000
                 } else {
                     System.currentTimeMillis()
@@ -241,7 +265,6 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
 
     var recognizeTime = 0L
     val listRecogResult = mutableListOf<Pair<Int?, Face>>()
-    var resultFace: Face? = null
     override fun onRecognizeFaceSuccess(face: Face?, customerId: Int?) {
         if (::binding.isInitialized) {
             activity?.runOnUiThread {
@@ -249,18 +272,26 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
                     customerId.toString()
             }
         }
+        Log.d("ppp", "onRecognizeFaceSuccess1:")
         face ?: return
-        if (System.currentTimeMillis() - recognizeTime <= 1000) {
+        Log.d("ppp", "onRecognizeFaceSuccess2:")
+        if (System.currentTimeMillis() - recognizeTime <= 5000) {
             listRecogResult.add(customerId to face)
         } else {
-            val maxFrequency = listRecogResult.groupBy { it.first }.maxBy { it.value.size }
-            if (maxFrequency.value.size.toDouble() / listRecogResult.size >= 0.75) {
+            Log.d("ppp", "onRecognizeFaceSuccess3:")
+            val maxFrequency = listRecogResult.groupBy { it.first }.maxByOrNull { it.value.size }
+            recognizeTime = if (maxFrequency != null && maxFrequency.value.size.toDouble() / listRecogResult.size >= 0.0) {
+                Log.d("ppp", "onRecognizeFaceSuccess: ${maxFrequency.key}")
                 if (maxFrequency.key != null) {
                     viewModel.addCustomerToRecent(maxFrequency.key!!)
                 } else {
                     // TODO have new Customer
                 }
+                System.currentTimeMillis() + 5000
+            } else {
+                System.currentTimeMillis()
             }
+            listRecogResult.clear()
         }
     }
 }
