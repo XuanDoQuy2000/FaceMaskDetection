@@ -36,4 +36,5 @@
     <string name="reward_detail">Chi tiết quà</string>
     <string name="update_quantity_reward">Cập nhật số lượng</string>
     <string name="recent_customer">Khách hàng gần đây</string>
+    <string name="data_is_empty">Danh sách trống</string>
 </resources>

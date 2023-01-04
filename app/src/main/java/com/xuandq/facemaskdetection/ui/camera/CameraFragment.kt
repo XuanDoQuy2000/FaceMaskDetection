@@ -2,6 +2,7 @@ package com.xuandq.facemaskdetection.ui.camera
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
@@ -51,6 +52,13 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
     private val viewModel: CameraViewModel by viewModels()
     private val adapter = CustomerAdapter()
 
+    private val mediaPlayer: MediaPlayer by lazy {
+        MediaPlayer.create(
+            requireContext(),
+            R.raw.sorry
+        )
+    }
+
     @Inject
     lateinit var faceNetModel: FaceNetModel
 
@@ -66,16 +74,25 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
         super.onViewCreated(view, savedInstanceState)
         setStatusBarColor(true)
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
         BottomSheetBehavior.from(binding.standardBottomSheet.root).apply {
-            peekHeight = 50
+            peekHeight = 400
         }
 
         binding.standardBottomSheet.rvRecentCustomer.adapter = adapter
 
+        adapter.itemClickListener = {
+            findNavController().navigate(
+                CameraFragmentDirections.actionCameraFragmentToCustomerDetailFragment(
+                    it
+                )
+            )
+        }
+
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        frameAnalyzer = context?.let { FrameAnalyzer(it, false, faceNetModel, this) }
+        frameAnalyzer = context?.let { FrameAnalyzer(it, true, faceNetModel, this) }
 
 //        binding.previewView.post {
 //            setUpCamera()
@@ -228,7 +245,7 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
 
     }
 
-    override fun onDetectFaceSuccess(faces: List<Face>) {
+    override fun onDetectFaceSuccess(faces: List<Face>, bitmap: Bitmap) {
         if (::binding.isInitialized) {
             binding.graphicOverlay.clear()
             for (face in faces) {
@@ -253,8 +270,9 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
                     it?.index == 1
                 }
                 maskTime = if (maskCount.toDouble() / listMask.size >= 0.75) {
+                    mediaPlayer.start()
                     Toast.makeText(context, "Nhắc nhở đeo khẩu trang", Toast.LENGTH_SHORT).show()
-                    System.currentTimeMillis() + 5000
+                    System.currentTimeMillis() + 3000
                 } else {
                     System.currentTimeMillis()
                 }
@@ -275,22 +293,23 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
         Log.d("ppp", "onRecognizeFaceSuccess1:")
         face ?: return
         Log.d("ppp", "onRecognizeFaceSuccess2:")
-        if (System.currentTimeMillis() - recognizeTime <= 5000) {
+        if (System.currentTimeMillis() - recognizeTime <= 3000) {
             listRecogResult.add(customerId to face)
         } else {
             Log.d("ppp", "onRecognizeFaceSuccess3:")
             val maxFrequency = listRecogResult.groupBy { it.first }.maxByOrNull { it.value.size }
-            recognizeTime = if (maxFrequency != null && maxFrequency.value.size.toDouble() / listRecogResult.size >= 0.0) {
-                Log.d("ppp", "onRecognizeFaceSuccess: ${maxFrequency.key}")
-                if (maxFrequency.key != null) {
-                    viewModel.addCustomerToRecent(maxFrequency.key!!)
+            recognizeTime =
+                if (maxFrequency != null && maxFrequency.value.size.toDouble() / listRecogResult.size >= 0.0) {
+                    Log.d("ppp", "onRecognizeFaceSuccess: ${maxFrequency.key}")
+                    if (maxFrequency.key != null) {
+                        viewModel.addCustomerToRecent(maxFrequency.key!!)
+                    } else {
+                        // TODO have new Customer
+                    }
+                    System.currentTimeMillis() + 5000
                 } else {
-                    // TODO have new Customer
+                    System.currentTimeMillis()
                 }
-                System.currentTimeMillis() + 5000
-            } else {
-                System.currentTimeMillis()
-            }
             listRecogResult.clear()
         }
     }

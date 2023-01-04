@@ -46,7 +46,7 @@ class FrameAnalyzer(
             .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
             .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_NONE)
             .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_NONE)
-            .setMinFaceSize(0.1f)
+            .setMinFaceSize(0.2f)
             .enableTracking()
             .build()
 
@@ -66,7 +66,6 @@ class FrameAnalyzer(
         val inputImage = InputImage.fromMediaImage(imageProxy.image!!, rotation)
         faceDetector.process(inputImage)
             .addOnSuccessListener { faces ->
-                listener.onDetectFaceSuccess(faces ?: emptyList())
                 if (!faces.isNullOrEmpty()) {
                     // convert original image to bitmap
                     val bitmapProxy = imageProxy.toBitmap() ?: Bitmap.createBitmap(
@@ -79,6 +78,7 @@ class FrameAnalyzer(
                     bitmapProxy.recycle()
                     if (croppedFaces.isNotEmpty()) {
                         bitmapBuffer = croppedFaces.first()
+                        listener.onDetectFaceSuccess(faces ?: emptyList(), bitmapBuffer)
                         var maskCategory: Category? = Category("",0f)
                         if (enableDetectMask) {
                             maskCategory = maskDetection.classify(bitmapBuffer, 1)
@@ -132,7 +132,7 @@ class FrameAnalyzer(
 
     interface AnalyzeListener {
         fun onError(error: String)
-        fun onDetectFaceSuccess(faces: List<Face>)
+        fun onDetectFaceSuccess(faces: List<Face>, bitmap: Bitmap)
         fun onDetectMaskSuccess(
             face: Face?,
             result: Category?

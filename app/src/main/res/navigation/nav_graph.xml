@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_cameraFragment_to_listRewardFragment"
             app:destination="@id/listRewardFragment" />
+        <action
+            android:id="@+id/action_cameraFragment_to_customerDetailFragment"
+            app:destination="@id/customerDetailFragment" />
     </fragment>
 
     <fragment
