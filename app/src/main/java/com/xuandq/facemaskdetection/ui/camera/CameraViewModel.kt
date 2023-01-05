@@ -23,7 +23,8 @@ class CameraViewModel @Inject constructor(private val dataManager: DataManager):
                 is Result.Success -> {
                     val mutableList = recentCustomers.value?.toMutableList() ?: mutableListOf()
                     val customer = result.data
-                    mutableList.remove(customer)
+                    val currIndex = mutableList.indexOfFirst { it.id == customer.id}
+                    if (currIndex >= 0) mutableList.removeAt(currIndex)
                     mutableList.add(0, customer)
                     recentCustomers.value = mutableList
                 }

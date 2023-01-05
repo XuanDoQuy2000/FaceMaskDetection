@@ -46,7 +46,7 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
     private lateinit var cameraExecutor: ExecutorService
     private var frameAnalyzer: FrameAnalyzer? = null
 
-    private var enableMaskDetector = false
+    private var enableMaskDetector = true
     private var enableFaceRecognition = false
 
     private val viewModel: CameraViewModel by viewModels()
@@ -73,11 +73,13 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setStatusBarColor(true)
+
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
         BottomSheetBehavior.from(binding.standardBottomSheet.root).apply {
             peekHeight = 400
+            isHideable = false
         }
 
         binding.standardBottomSheet.rvRecentCustomer.adapter = adapter
@@ -94,9 +96,9 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
 
         frameAnalyzer = context?.let { FrameAnalyzer(it, true, faceNetModel, this) }
 
-//        binding.previewView.post {
-//            setUpCamera()
-//        }
+        binding.previewView.post {
+            setUpCamera()
+        }
 
         binding.btnManageCustomer.setOnClickListener {
             findNavController().navigate(CameraFragmentDirections.actionCameraFragmentToSearchCustomerFragment())
@@ -106,49 +108,70 @@ class CameraFragment : Fragment(), FrameAnalyzer.AnalyzeListener {
             findNavController().navigate(CameraFragmentDirections.actionCameraFragmentToListRewardFragment())
         }
 
+        updateDetecMaskStatus()
+
         binding.btnDetectMask.setOnClickListener {
             enableMaskDetector = !enableMaskDetector
-            frameAnalyzer?.enableDetectMask = enableMaskDetector
-            binding.btnDetectMask.setColorFilter(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (enableMaskDetector) R.color.yellow else R.color.white
-                )
-            )
-            if (!enableFaceRecognition) {
-                if (enableMaskDetector) {
-                    it.post {
-                        setUpCamera()
-                    }
-                } else {
-                    cameraProvider?.unbindAll()
-                }
-            }
+            updateDetecMaskStatus()
+//            if (!enableFaceRecognition) {
+//                if (enableMaskDetector) {
+//                    it.post {
+//                        setUpCamera()
+//                    }
+//                } else {
+//                    cameraProvider?.unbindAll()
+//                }
+//            }
         }
+
+        updateRecognizeFaceStatus()
 
         binding.btnRecognizeFace.setOnClickListener {
             enableFaceRecognition = !enableFaceRecognition
-            frameAnalyzer?.enableRecogFace = enableFaceRecognition
-            binding.btnRecognizeFace.setColorFilter(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (enableFaceRecognition) R.color.yellow else R.color.white
-                )
-            )
-            if (!enableMaskDetector) {
-                if (enableFaceRecognition) {
-                    it.post {
-                        setUpCamera()
-                    }
-                } else {
-                    cameraProvider?.unbindAll()
-                }
-            }
+            updateRecognizeFaceStatus()
+//            if (!enableMaskDetector) {
+//                if (enableFaceRecognition) {
+//                    it.post {
+//                        setUpCamera()
+//                    }
+//                } else {
+//                    cameraProvider?.unbindAll()
+//                }
+//            }
         }
 
         viewModel.recentCustomers.observe(viewLifecycleOwner) {
-            Log.d("ppp", "onViewCreated: ${it ?: emptyList()}")
             adapter.setData(it ?: emptyList())
+        }
+    }
+
+    private fun updateDetecMaskStatus() {
+        frameAnalyzer?.enableDetectMask = enableMaskDetector
+        binding.btnDetectMask.setColorFilter(
+            ContextCompat.getColor(
+                requireContext(),
+                if (enableMaskDetector) R.color.yellow else R.color.white
+            )
+        )
+        if (!enableMaskDetector && !enableFaceRecognition) {
+            binding.graphicOverlay.postDelayed({
+                binding.graphicOverlay.clear()
+            },500)
+        }
+    }
+
+    private fun updateRecognizeFaceStatus() {
+        frameAnalyzer?.enableRecogFace = enableFaceRecognition
+        binding.btnRecognizeFace.setColorFilter(
+            ContextCompat.getColor(
+                requireContext(),
+                if (enableFaceRecognition) R.color.yellow else R.color.white
+            )
+        )
+        if (!enableMaskDetector && !enableFaceRecognition) {
+            binding.graphicOverlay.postDelayed({
+                binding.graphicOverlay.clear()
+            },500)
         }
     }
 

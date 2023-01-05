@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/cameraFragment">
+    app:startDestination="@id/permissionFragment">
 
     <fragment
         android:id="@+id/cameraFragment"
@@ -108,5 +108,13 @@
         <argument
             android:name="reward"
             app:argType="com.xuandq.facemaskdetection.data.model.RewardUI" />
+    </fragment>
+    <fragment
+        android:id="@+id/permissionFragment"
+        android:name="com.xuandq.facemaskdetection.ui.camera.PermissionFragment"
+        android:label="PermissionFragment" >
+        <action
+            android:id="@+id/action_permissionFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
     </fragment>
 </navigation>

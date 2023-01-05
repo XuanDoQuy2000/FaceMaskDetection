@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewModelScope
 import com.xuandq.facemaskdetection.databinding.ActivityMainBinding
+import com.xuandq.facemaskdetection.utils.ext.isTrue
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,9 +21,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel.init()
         binding.root.viewTreeObserver.addOnPreDrawListener(object: ViewTreeObserver.OnPreDrawListener{
             override fun onPreDraw(): Boolean {
-                return if (viewModel.isReady) {
+                return if (viewModel.isReady.value.isTrue()) {
                     binding.root.viewTreeObserver.removeOnPreDrawListener(this)
                     true
                 } else {

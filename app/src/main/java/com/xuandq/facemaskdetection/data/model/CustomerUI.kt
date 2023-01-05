@@ -11,8 +11,8 @@ data class CustomerUI(
     val name: String? = null,
     val phoneNumber: String? = null,
     val createdTime: Long? = null,
-    var currentPoint: Float? = null,
-    var totalPoint: Float? = null,
+    var currentPoint: Float? = 0f,
+    var totalPoint: Float? = 0f,
 ) : Parcelable{
     @IgnoredOnParcel
     @Ignore

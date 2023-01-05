@@ -46,11 +46,12 @@ class AccumulatePointViewModel @Inject constructor(private val dataManager: Data
 
     fun accumulatePoint(onSuccess: (CustomerUI) -> Unit) {
         viewModelScope.launch {
-            when (val result = dataManager.accumulatePoint(point.value!!, money.value!!, customer.value?.id!!)) {
+            when (val result =
+                dataManager.accumulatePoint(point.value!!, money.value!!, customer.value?.id!!)) {
                 is Result.Success -> {
                     customer.value!!.apply {
-                        currentPoint = currentPoint?.plus(point.value!!)
-                        totalPoint = totalPoint?.plus(point.value!!)
+                        currentPoint = (currentPoint ?: 0f).plus(point.value!!)
+                        totalPoint = (totalPoint ?: 0f).plus(point.value!!)
                     }
                     Log.d("ppp", "accumulatePoint: ")
                     onSuccess.invoke(customer.value!!)

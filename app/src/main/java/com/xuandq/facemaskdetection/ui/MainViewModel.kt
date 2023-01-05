@@ -1,6 +1,7 @@
 package com.xuandq.facemaskdetection.ui
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xuandq.facemaskdetection.analyzer.FaceNetModel
@@ -14,16 +15,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val dataManager: DataManager): ViewModel() {
-    var isReady = false
+    var isReady = MutableLiveData<Boolean>(false)
 
-    init {
+    fun init() {
         viewModelScope.launch {
             when(val result = dataManager.getAllImageCustomerEmbedding()) {
                 is Result.Success -> {
                     FaceEmbeddingRepository.facesEmbedding.clear()
                     FaceEmbeddingRepository.facesEmbedding.addAll(result.data)
                     Log.d("ppp", "embeding size: ${result.data.size}")
-                    isReady = true
+                    isReady.value = true
                 }
                 is Result.Error -> {
                     Log.d("ppp", "error: ${result.error}")

@@ -31,7 +31,7 @@ class FrameAnalyzer(
 
     private lateinit var maskDetection: FaceMaskModel
 
-    var enableDetectMask = false
+    var enableDetectMask = true
     var enableRecogFace = false
 
     init {
@@ -56,6 +56,10 @@ class FrameAnalyzer(
     @SuppressLint("UnsafeOptInUsageError")
     override fun analyze(imageProxy: ImageProxy) {
         imageProxy.image?.let {
+            if (!enableDetectMask && !enableRecogFace) {
+                imageProxy.close()
+                return
+            }
             detectFace(imageProxy)
         }
     }
